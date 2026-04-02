@@ -12,15 +12,15 @@ function toReadNumber(number) {
   let smaller = number % 10000;
 
   if (larger > 0) {
-    result += readGroup(larger) + " vạn ";
+    result += readGroup(larger, larger.toString().length) + " vạn ";
   }
 
-  result += readGroup(smaller);
+  result += readGroup(smaller, 4);
 
   return `${result}.`;
 }
 
-function readGroup(number) {
+function readGroup(number, digits = 4) {
   const numberRead = [
     "không",
     "một",
@@ -39,12 +39,17 @@ function readGroup(number) {
   if (number >= 1000) {
     result += `${numberRead[Math.floor(number / 1000)]} ngàn `;
     number = number % 1000;
+  }else if (digits === 4) {
+    result += `${numberRead[0]} ngàn `;
   }
 
-  if (number < 1000 && number >= 99) {
-    result += (number < 100 ) ? `${numberRead[0]} trăm ` :  `${numberRead[Math.floor(number / 100)]} trăm `;
+  if (number >= 100) {
+    result += `${numberRead[Math.floor(number / 100)]} trăm `;
     number = number % 100;
+  }else if (digits === 4) {
+    result += `${numberRead[0]} trăm `;
   }
+
   if (number < 100 && number >= 20) {
     result += `${numberRead[Math.floor(number / 10)]} mươi`;
     switch (number % 10) {
