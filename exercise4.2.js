@@ -86,6 +86,5 @@ function readGroup(number, digits = 4) {
 
 console.log(toReadNumber(736312));
 console.log(toReadNumber(6052));
+console.log(toReadNumber(120021));
 console.log(toReadNumber(1000001));
-
-
