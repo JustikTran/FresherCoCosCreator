@@ -78,7 +78,7 @@ function readGroup(number, digits = 4) {
         break;
     }
   } else {
-    result += ` linh ${numberRead[number]}`;
+    result += !number ? '' : ` linh ${numberRead[number]}`;
   }
 
   return result;
@@ -86,6 +86,6 @@ function readGroup(number, digits = 4) {
 
 console.log(toReadNumber(736312));
 console.log(toReadNumber(6052));
-console.log(toReadNumber(120021));
+console.log(toReadNumber(1000001));
 
 
