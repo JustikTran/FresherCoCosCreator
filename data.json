@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "book123",
+    "author": "author123",
+    "publicDate": "01-01-2000",
+    "genre": "roman"
+  },
+  {
+    "id": 2,
+    "title": "book 2",
+    "author": "author 2",
+    "publicDate": "01-01-2000",
+    "genre": "roman"
+  }
+]
