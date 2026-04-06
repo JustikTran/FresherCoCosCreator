@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "book 123",
+    "author": "author 123",
+    "publicDate": "2000-01-01T00:00:00.000Z",
+    "genre": "fantasy",
+    "borrowed": {
+      "userId": "1",
+      "userName": "kotd",
+      "startDate": "2026-04-01",
+      "endDate": "2026-04-02",
+      "lateFee": 10000
+    }
+  },
+  {
+    "id": 2,
+    "title": "book 223 ",
+    "author": "author 223",
+    "publicDate": "2012-10-10T00:00:00.000Z",
+    "genre": "roman"
+  },
+  {
+    "id": 3,
+    "title": "book 333",
+    "author": "author 123",
+    "publicDate": "2011-04-10T00:00:00.000Z",
+    "genre": "roman"
+  }
+]
