@@ -9,7 +9,7 @@ In the era of booming online shopping, stores that want to keep up must use a we
 
 
 ## 3. Scope:
-<b>Client app</b>: Authentication, browse categories, search/filter, cart, payment, track order, rate.
+<b>Guest/ customer</b>: Authentication, browse categories, search/filter, cart, payment, track order, rate.
 
 <b>Staff</b>: product management, order management, inventory management
 
