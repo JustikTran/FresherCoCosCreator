@@ -1,4 +1,4 @@
-#### Account:
+#### 1. Account:
 - id
 - password
 - role
@@ -7,13 +7,13 @@
 - isBanned
 - createAt
 
-#### User:
+#### 2. User:
 - id
 - phone
 - name
 - avatar
 
-#### Receive Address
+#### 3. Receive Address
 - id
 - userId
 - address
@@ -22,11 +22,11 @@
 - isDefault
 - isDeleted
 
-#### category
+#### 4. Category
 - id
 - name
 
-#### Product
+#### 5. Product
 - id
 - name
 - thumbnail
@@ -39,7 +39,7 @@
 - categoryIds[]
 - createAt
 
-#### Product Option
+#### 6. Product Option
 - id
 - size
 - color
@@ -47,7 +47,7 @@
 - quantity
 - image
 
-#### Order
+#### 7. Order
 - id
 - userId
 - status
@@ -57,7 +57,7 @@
 - createdAt
 - updatedAt
 
-#### Order Item
+#### 8. Order Item
 - id
 - orderId
 - productId
@@ -65,43 +65,43 @@
 - quantity
 - price
 
-#### Cart
+#### 9. Cart
 - id
 - userId
 
-#### Cart Item
+#### 10. Cart Item
 - id
 - cartId
 - productId
 - optionId
 - quantity
 
-#### Rating
+#### 11. Rating
 - id
 - userId
 - productId
 - point
 - comment
 
-#### Revenue:
+#### 12. Revenue:
 - date
 - orderId
 - amount
 - type (SALE | REFUND)
 
-#### Expense:
+#### 13. Expense:
 - id
 - type (IMPORT_GOODS | SHIPPING | MARKETING | OTHER)
 - amount
 - note
 - createdAt
 
-#### ProductCost:
+#### 14. Product Cost:
 - productId
 - optionId
 - importPrice
 
-#### Inventory(log)
+#### 15. Inventory (log)
 - id
 - productId
 - optionId
