@@ -13,7 +13,7 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<User>
   ) { }
 
-  async create(createUserDto: CreateUserDto): Promise<string | object> {
+  async create(createUserDto: CreateUserDto): Promise<{ id: mongoose.Types.ObjectId }> {
     const existing = await this.findByPhone(createUserDto.phone);
     if (existing) {
       throw new ConflictException('Phone number has been used.');
