@@ -1,26 +1,93 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from 'src/modules/users/schemas/user.schema';
+import mongoose, { Model } from 'mongoose';
+import aqp from 'api-query-params';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>
+  ) { }
+
+  async create(createUserDto: CreateUserDto): Promise<string | object> {
+    const existing = await this.findByPhone(createUserDto.phone);
+    if (existing) {
+      throw new ConflictException('Phone number has been used.');
+    }
+
+    const newUser = await this.userModel.create({ ...createUserDto });
+    return {
+      id: newUser._id
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(query: any, current: string = '1', pageSize: string = '10'): Promise<{ meta: any, data: User[] }> {
+    const { filter, sort } = aqp(query);
+
+    if (filter.current) delete filter.current;
+    if (filter.pageSize) delete filter.pageSize;
+
+    const total = (await this.userModel.find(filter)).length;
+    const totalPage = Math.ceil(total / +pageSize);
+
+    const skip = (+current - 1) * + (+pageSize);
+
+    const result = await this.userModel
+      .find(filter)
+      .skip(skip)
+      .limit(+pageSize)
+      .sort(sort as any);
+
+    return {
+      meta: {
+        current: current,
+        pageSize: pageSize,
+        total: total,
+        totalPage: totalPage
+      },
+      data: result
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findById(id: mongoose.Types.ObjectId): Promise<User> {
+    const user = await this.userModel.findById(id);
+
+    if (!user) throw new NotFoundException('User does not be found.');
+    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findByPhone(phone: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ phone: phone });
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: mongoose.Types.ObjectId, updateUserDto: UpdateUserDto): Promise<string | object> {
+    const exist = await this.findByPhone(updateUserDto.phone);
+    if (exist) {
+      throw new ConflictException('Phone number has been used.');
+    }
+    const updated = await this.userModel.findByIdAndUpdate(
+      id,
+      { ...updateUserDto }
+      ,
+      { new: true }
+    );
+
+    return {
+      id: updated?._id
+    }
+  }
+
+  async remove(id: mongoose.Types.ObjectId): Promise<string | object> {
+    const deleted = await this.userModel.findByIdAndUpdate(id, {
+      deletedAt: new Date()
+    }, { new: true })
+    return {
+      id: deleted?._id
+    };
   }
 }
