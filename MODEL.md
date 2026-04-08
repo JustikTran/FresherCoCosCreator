@@ -3,7 +3,6 @@
 - password
 - role
 - userId
-- deletedAt
 - isBanned
 - createAt
 
@@ -12,6 +11,7 @@
 - phone
 - name
 - avatar
+- deletedAt
 
 #### 3. Receive Address
 - id
@@ -35,8 +35,6 @@
 - brand
 - isOutStock
 - deletedAt
-- productOption[]
-- categoryIds[]
 - createAt
 
 #### 6. Product Option
