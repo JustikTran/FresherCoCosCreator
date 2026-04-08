@@ -20,7 +20,7 @@
 - phone
 - note
 - isDefault
-- isDeleted
+- deletedAt
 
 #### 4. Category
 - id
@@ -80,6 +80,7 @@
 - id
 - userId
 - productId
+- optionId
 - point
 - comment
 
@@ -87,7 +88,8 @@
 - date
 - orderId
 - amount
-- type (SALE | REFUND)
+- productId
+- optionId
 
 #### 13. Expense:
 - id
@@ -100,6 +102,7 @@
 - productId
 - optionId
 - importPrice
+- importDate
 
 #### 15. Inventory (log)
 - id
