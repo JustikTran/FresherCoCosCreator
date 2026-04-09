@@ -1,1 +1,6 @@
-export class CreateProductCostDto {}
+export class CreateProductCostDto {
+    productId
+    optionId
+    importPrice
+    importDate
+}

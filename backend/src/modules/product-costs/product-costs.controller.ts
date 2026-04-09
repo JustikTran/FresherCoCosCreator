@@ -1,25 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ProductCostsService } from './product-costs.service';
 import { CreateProductCostDto } from './dto/create-product-cost.dto';
 import { UpdateProductCostDto } from './dto/update-product-cost.dto';
+import mongoose from 'mongoose';
 
 @Controller('product-costs')
 export class ProductCostsController {
-  constructor(private readonly productCostsService: ProductCostsService) {}
+  constructor(private readonly productCostsService: ProductCostsService) { }
 
   @Post()
-  create(@Body() createProductCostDto: CreateProductCostDto) {
-    return this.productCostsService.create(createProductCostDto);
+  async create(@Body() createProductCostDto: CreateProductCostDto[]) {
+    return await this.productCostsService.create(createProductCostDto);
   }
 
   @Get()
-  findAll() {
-    return this.productCostsService.findAll();
+  async findAll(
+    @Query() query: any,
+    @Query('current') current: string,
+    @Query('pageSize') pageSize: string
+  ) {
+    return await this.productCostsService.findAll(query, current, pageSize);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productCostsService.findOne(+id);
+  async findOne(@Param('id') id: mongoose.Types.ObjectId) {
+    return await this.productCostsService.findOne(id);
   }
 
   @Patch(':id')

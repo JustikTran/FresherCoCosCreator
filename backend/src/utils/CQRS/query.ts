@@ -4,8 +4,12 @@ import { Model } from "mongoose";
 export async function Queries<T>(model: Model<T>, query: any, current: number, pageSize: number, select: string = ''): Promise<{ meta: any, data: T[] }> {
     const { filter, sort } = aqp(query);
 
-    if (filter.current) delete filter.current;
-    if (filter.pageSize) delete filter.pageSize;
+    if (filter.current) {
+        delete filter.current;
+    }
+    if (filter.pageSize) {
+        delete filter.pageSize;
+    }
 
     const total = (await model.find(filter)).length;
     const totalPages = Math.ceil(total / pageSize);

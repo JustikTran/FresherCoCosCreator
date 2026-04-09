@@ -39,11 +39,13 @@
 
 #### 6. Product Option
 - id
+- productId
 - size
 - color
 - price
 - quantity
 - image
+- deletedAt
 
 #### 7. Order
 - id

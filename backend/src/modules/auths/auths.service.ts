@@ -6,7 +6,6 @@ import { Auth } from 'src/modules/auths/schemas/auth.schema';
 import mongoose, { Connection, Model } from 'mongoose';
 import { Queries } from 'src/utils/CQRS/query';
 import { UsersService } from 'src/modules/users/users.service';
-import { promises } from 'dns';
 
 @Injectable()
 export class AuthsService {
