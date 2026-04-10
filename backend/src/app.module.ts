@@ -13,7 +13,7 @@ import { RevenuesModule } from './modules/revenues/revenues.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
+    ConfigModule.forRoot({k
       envFilePath: '.env',
       isGlobal: true
     }),
