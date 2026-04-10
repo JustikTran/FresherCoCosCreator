@@ -1,20 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { RevenuesService } from './revenues.service';
 import { CreateRevenueDto } from './dto/create-revenue.dto';
 import { UpdateRevenueDto } from './dto/update-revenue.dto';
 
 @Controller('revenues')
 export class RevenuesController {
-  constructor(private readonly revenuesService: RevenuesService) {}
+  constructor(private readonly revenuesService: RevenuesService) { }
 
   @Post()
-  create(@Body() createRevenueDto: CreateRevenueDto) {
-    return this.revenuesService.create(createRevenueDto);
+  async create(@Body() createRevenuesDto: CreateRevenueDto[]) {
+    return await this.revenuesService.create(createRevenuesDto);
   }
 
   @Get()
-  findAll() {
-    return this.revenuesService.findAll();
+  async findAll(
+    @Query() query: any,
+    @Query('current') current: string,
+    @Query('pageSize') pageSize: string
+  ) {
+    return await this.revenuesService.findAll(query, current, pageSize);
   }
 
   @Get(':id')
