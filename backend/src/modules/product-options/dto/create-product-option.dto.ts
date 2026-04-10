@@ -1,3 +1,5 @@
+import { CreateProductCostDto } from "src/modules/product-costs/dto/create-product-cost.dto"
+
 export class CreateProductOptionDto {
     productId
     size
@@ -5,4 +7,5 @@ export class CreateProductOptionDto {
     price
     quantity
     image
+    cost?: CreateProductCostDto
 }

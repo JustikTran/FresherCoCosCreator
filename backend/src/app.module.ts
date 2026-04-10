@@ -8,6 +8,8 @@ import { UsersModule } from 'src/modules/users/users.module';
 import { ProductsModule } from 'src/modules/products/products.module';
 import { ProductOptionsModule } from 'src/modules/product-options/product-options.module';
 import { ProductCostsModule } from 'src/modules/product-costs/product-costs.module';
+import { InventoriesModule } from './modules/inventories/inventories.module';
+import { RevenuesModule } from './modules/revenues/revenues.module';
 
 @Module({
   imports: [
@@ -20,7 +22,9 @@ import { ProductCostsModule } from 'src/modules/product-costs/product-costs.modu
     UsersModule,
     ProductsModule,
     ProductOptionsModule,
-    ProductCostsModule
+    ProductCostsModule,
+    InventoriesModule, 
+    RevenuesModule
   ],
   controllers: [AppController],
   providers: [AppService],

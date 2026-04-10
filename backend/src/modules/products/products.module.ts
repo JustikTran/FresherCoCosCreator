@@ -5,12 +5,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { ProductOptionsModule } from '../product-options/product-options.module';
 import { ProductCostsModule } from '../product-costs/product-costs.module';
+import { InventoriesModule } from '../inventories/inventories.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
     ProductOptionsModule,
     ProductCostsModule,
+    InventoriesModule
   ],
   controllers: [ProductsController],
   providers: [ProductsService],

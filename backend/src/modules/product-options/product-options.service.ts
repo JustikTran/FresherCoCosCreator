@@ -10,7 +10,7 @@ import { Queries } from 'src/utils/CQRS/query';
 export class ProductOptionsService {
   constructor(@InjectModel(ProductOption.name) private optionService: Model<ProductOption>) { }
 
-  async create(createProductOptionDto: CreateProductOptionDto[]): Promise<ProductOption[]> {
+  async create(createProductOptionDto: CreateProductOptionDto[]): Promise<(ProductOption & { _id: mongoose.Types.ObjectId })[]> {
     return await this.optionService.create(createProductOptionDto);
   }
 

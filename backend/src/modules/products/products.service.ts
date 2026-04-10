@@ -6,6 +6,8 @@ import { Product } from './schemas/product.schema';
 import mongoose, { Connection, Model } from 'mongoose';
 import { Queries } from 'src/utils/CQRS/query';
 import { ProductOptionsService } from '../product-options/product-options.service';
+import { ProductCostsService } from '../product-costs/product-costs.service';
+import { CreateProductCostDto } from '../product-costs/dto/create-product-cost.dto';
 
 @Injectable()
 export class ProductsService {
@@ -13,11 +15,13 @@ export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
     @InjectConnection() private connection: Connection,
-    private optionService: ProductOptionsService
+    private optionService: ProductOptionsService,
+    private costService: ProductCostsService
   ) { }
 
   async create(createProductDto: CreateProductDto): Promise<{ id: mongoose.Types.ObjectId }> {
     const { name, thumbnail, price, description, brand, isOutStock } = createProductDto;
+    const costs: CreateProductCostDto[] = [];
 
     const session = await this.connection.startSession();
     session.startTransaction();
@@ -25,10 +29,14 @@ export class ProductsService {
     const newProduct = await this.productModel.create({ name, thumbnail, price, description, brand, isOutStock });
     for (const option of createProductDto.options) {
       option.productId = newProduct._id;
+      let tempCost = option.cost;
+      delete option.cost;
+      const result = await this.optionService.create([option]);
+      tempCost!.optionId = result[0]._id;
+      costs.push(tempCost!);
     }
-    
 
-    await this.optionService.create(createProductDto.options);
+    await this.costService.create(costs);
 
     session.commitTransaction();
     return { id: newProduct._id };
