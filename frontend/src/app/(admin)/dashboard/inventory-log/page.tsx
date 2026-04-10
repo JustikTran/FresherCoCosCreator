@@ -1,6 +1,5 @@
 "use client";
 
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Avatar, List, Skeleton, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -12,7 +11,7 @@ interface DataType {
     loading: boolean;
 }
 
-export default function inventoryLog() {
+export default function InventoryLogs() {
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<DataType[]>([]);
