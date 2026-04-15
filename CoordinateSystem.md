@@ -98,7 +98,7 @@ Primary system: Cartesian right-handed coordinate system (Cocos/OpenGL)
 1. ### Local coordinate (MOST USED)
 - Khi set node.position
 - Khi làm UI / gameplay logic
-- Đây là coordinate bạn thao tác 90% thời gian
+- Đây là coordinate thao tác 90% thời gian
 
 2. ### World coordinate
     Khi:
