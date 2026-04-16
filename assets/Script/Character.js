@@ -5,7 +5,7 @@ cc.Class({
     moveDistance: 50,
     charName: "Demo player",
     mana: 100,
-    minorMana:5,
+    minorMana: 5,
     processMana: cc.ProgressBar,
     labelName: cc.Label,
     anim: sp.Skeleton,
@@ -37,6 +37,7 @@ cc.Class({
 
     this.updateProcess();
 
+    this.currentMana -= this.minorMana * dt;
     this.node.x += dt * this.step;
 
     if (Math.abs(this.targetX - this.node.x) >= this.moveDistance) {
@@ -53,7 +54,7 @@ cc.Class({
     if (this.isMoving) {
       return;
     }
-    const dir = Number(param); 
+    const dir = Number(param);
     this.targetX = this.node.x + this.moveDistance * dir;
     if (this.targetX > 600 || this.targetX < -600) {
       this.step = 0;
@@ -62,13 +63,11 @@ cc.Class({
     this.anim.animation = "walk";
 
     this.isMoving = true;
-    this.currentMana -= this.minorMana;
 
     this.isFaceRight = dir === 1;
 
     const absScaleX = Math.abs(this.spine.scaleX);
     this.spine.scaleX = this.isFaceRight ? absScaleX : -absScaleX;
-
 
     this.step = this.speed * dir;
   },
