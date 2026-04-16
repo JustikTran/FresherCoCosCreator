@@ -892,6 +892,7 @@
     "moveDistance": 75,
     "charName": "Demo player 1",
     "mana": 100,
+    "minorMana": 5,
     "processMana": {
       "__id__": 19
     },
@@ -1469,6 +1470,7 @@
     "moveDistance": 75,
     "charName": "Demo player 2",
     "mana": 100,
+    "minorMana": 5,
     "processMana": {
       "__id__": 35
     },

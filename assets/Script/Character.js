@@ -5,6 +5,7 @@ cc.Class({
     moveDistance: 50,
     charName: "Demo player",
     mana: 100,
+    minorMana:5,
     processMana: cc.ProgressBar,
     labelName: cc.Label,
     anim: sp.Skeleton,
@@ -61,7 +62,7 @@ cc.Class({
     this.anim.animation = "walk";
 
     this.isMoving = true;
-    this.currentMana -= 5;
+    this.currentMana -= this.minorMana;
 
     this.isFaceRight = dir === 1;
 
