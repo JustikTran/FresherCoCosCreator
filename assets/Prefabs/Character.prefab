@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Character copy",
+    "_name": "Character",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -294,7 +294,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_N$cacheMode": 0,
+    "_N$cacheMode": 1,
     "_id": ""
   },
   {
@@ -459,7 +459,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "67e68bc9-dad5-4ad9-a2d8-7e03d458e32f"
+      "__uuid__": "38c44933-16c0-41d0-abf9-c29a74a740e6"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -554,6 +554,7 @@
       "__id__": 1
     },
     "_enabled": true,
+    "moveDistance": 75,
     "charName": "Demo player 2",
     "mana": 100,
     "processMana": {
@@ -562,9 +563,14 @@
     "labelName": {
       "__id__": 6
     },
-    "skin": {
+    "anim": {
       "__id__": 3
     },
+    "spine": {
+      "__id__": 2
+    },
+    "isFaceRight": false,
+    "speed": 100,
     "_id": ""
   },
   {
