@@ -12,7 +12,7 @@
   "height": 198,
   "platformSettings": {},
   "subMetas": {
-    "StageFrame_01_Single_Select": {
+    "LightButton": {
       "ver": "1.0.6",
       "uuid": "c940552c-384a-407a-ab49-f3d0a82b9bb7",
       "importer": "sprite-frame",
