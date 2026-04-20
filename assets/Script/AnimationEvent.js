@@ -15,5 +15,9 @@ cc.Class({
 
     onChangeMode(event, mode) {
         Emitter.instance.emit("MODE", mode);
+    },
+
+    onReset(){
+        Emitter.instance.emit("RESET")
     }
 });

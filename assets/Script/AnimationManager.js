@@ -16,8 +16,9 @@ cc.Class({
     this.currentMode = null;
 
     this.content.children = [];
-    Emitter.instance.registerEvent("SPINE", this.setSpine.bind(this));
-    Emitter.instance.registerEvent("MODE", this.setMode.bind(this));
+    Emitter.instance.registerEvent("SPINE", this.setSpine.bind(this), this);
+    Emitter.instance.registerEvent("MODE", this.setMode.bind(this), this);
+    Emitter.instance.registerEvent("RESET", this.removeEvent.bind(this), this);
   },
 
   start() {
@@ -29,9 +30,12 @@ cc.Class({
     }
   },
 
+  removeEvent(){
+    Emitter.instance.removeAllEvent(this);
+  },
+
   onDestroy() {
-    Emitter.instance.removeEvent("SPINE", this.setSpine);
-    Emitter.instance.removeEvent("MODE", this.setMode);
+    Emitter.instance.removeAllEvent(this);
   },
 
   setSpine(data) {
@@ -91,7 +95,7 @@ cc.Class({
   resetState() {
     cc.Tween.stopAll();
     this.character.stopAllActions();
-    
+
     const anim = this.character.getComponent(cc.Animation);
     if (!anim) return;
 
