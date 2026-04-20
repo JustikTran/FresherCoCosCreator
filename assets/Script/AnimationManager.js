@@ -66,12 +66,7 @@ cc.Class({
   },
 
   playMode() {
-    // if (!this.currentMode) {
-    //   return;
-    // }
-    cc.Tween.stopAll();
-    this.character.stopAllActions();
-    this.stopTimeline();
+    this.resetState();
 
     this.modeLabel.string = "Mode: " + (this.currentMode || "None");
     switch (this.currentMode) {
@@ -93,7 +88,10 @@ cc.Class({
     }
   },
 
-  stopTimeline() {
+  resetState() {
+    cc.Tween.stopAll();
+    this.character.stopAllActions();
+    
     const anim = this.character.getComponent(cc.Animation);
     if (!anim) return;
 
