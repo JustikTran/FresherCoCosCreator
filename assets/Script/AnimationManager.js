@@ -1,4 +1,4 @@
-const Emitter = require('./EventEmitter');
+const Emitter = require("./EventEmitter");
 cc.Class({
   extends: cc.Component,
 
@@ -8,6 +8,7 @@ cc.Class({
     content: cc.Node,
     animationLabel: cc.Label,
     modeLabel: cc.Label,
+    character: cc.Node,
   },
 
   onLoad() {
@@ -54,7 +55,8 @@ cc.Class({
   },
 
   playAnimation() {
-    this.animationLabel.string = "Animation: " + (this.currentAnimation ?? 'None');
+    this.animationLabel.string =
+      "Animation: " + (this.currentAnimation ?? "None");
 
     if (!this.currentAnimation) {
       this.spine.animation = null;
@@ -67,8 +69,44 @@ cc.Class({
     // if (!this.currentMode) {
     //   return;
     // }
-    this.modeLabel.string = "Mode: " + (this.currentMode || 'None');
+    cc.Tween.stopAll();
+    this.character.stopAllActions();
+    this.stopTimeline();
 
+    this.modeLabel.string = "Mode: " + (this.currentMode || "None");
+    switch (this.currentMode) {
+      case "Tween":
+        cc.tween(this.character).to(1, { scale: 1 }).start();
+        break;
+      case "RunAction":
+        this.character.runAction(
+          cc.sequence(cc.scaleTo(2, 2), cc.scaleTo(1.75, 1.75)),
+        );
+        break;
+      case "TimeLine":
+        let animation = this.character.getComponent(cc.Animation);
+        animation.play();
+        break;
+      default:
+        this.character.scale = 1.5;
+        break;
+    }
+  },
+
+  stopTimeline() {
+    const anim = this.character.getComponent(cc.Animation);
+    if (!anim) return;
+
+    anim.stop();
+
+    const defaultClip = anim.defaultClip;
+    if (defaultClip) {
+      let state = anim.getAnimationState(defaultClip.name);
+      if (state) {
+        state.time = 0;
+        state.sample();
+      }
+    }
   },
 
   createButton(name) {
@@ -78,7 +116,7 @@ cc.Class({
       .getChildByName("Label")
       .getComponent(cc.Label).string = name;
 
-    button.getComponent('AnimationEvent').init(name);
+    button.getComponent("AnimationEvent").init(name);
     return button;
   },
 });
