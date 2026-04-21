@@ -1,3 +1,6 @@
+const { EventCall, EventMove } = require("./Config/GlobalVariable");
+const Emitter = require("./EventEmitter");
+
 cc.Class({
   extends: cc.Component,
 
@@ -12,37 +15,44 @@ cc.Class({
     spine: cc.Node,
     isFaceRight: true,
     speed: 10,
+    shootPoint: {
+      default: null,
+      type: cc.Node,
+    },
   },
 
   onLoad() {
     this.isMoving = false;
-    this.targetX = 0;
-    this.currentX = this.node.x;
+    // this.targetX = 0;
+    // this.currentX = this.node.x;
+
+    this.stepX = 0;
+    this.stepY = 0;
+
+    Emitter.instance.registerEvent(
+      EventCall.MOVE,
+      this.onMove.bind(this),
+      this,
+    );
+    Emitter.instance.registerEvent(
+      EventCall.STOP,
+      this.onStopMove.bind(this),
+      this,
+    );
   },
 
   start() {
-    this.labelName.string = this.charName;
-    this.currentMana = this.mana;
-    this.updateProcess();
+    // this.labelName.string = this.charName;
+    // this.currentMana = this.mana;
+    // this.updateProcess();
+
+    this.getShootPoint();
   },
 
   update(dt) {
-    if (this.currentMana <= 0) {
-      this.node.destroy();
-    }
-
-    if (!this.isMoving) {
-      return;
-    }
-
-    this.updateProcess();
-
-    this.currentMana -= this.minorMana * dt;
-    this.node.x += dt * this.step;
-
-    if (Math.abs(this.targetX - this.node.x) >= this.moveDistance) {
-      this.isMoving = false;
-      this.anim.animation = "idle";
+    if (this.isMoving) {
+      this.node.x += this.stepX * this.speed * dt;
+      this.node.y += this.stepY * this.speed * dt;
     }
   },
 
@@ -50,25 +60,33 @@ cc.Class({
     this.processMana.progress = this.currentMana / this.mana;
   },
 
-  onMove: function (event, param = 1) {
-    if (this.isMoving) {
-      return;
-    }
-    const dir = Number(param);
-    this.targetX = this.node.x + this.moveDistance * dir;
-    if (this.targetX > 600 || this.targetX < -600) {
-      this.step = 0;
-      return;
-    }
-    this.anim.animation = "walk";
-
+  onMove(param) {
+    this.stepX = 0;
+    this.stepY = 0;
     this.isMoving = true;
 
-    this.isFaceRight = dir === 1;
+    switch (param) {
+      case EventMove.UP:
+        this.stepY = 1;
+        break;
+      case EventMove.DOWN:
+        this.stepY = -1;
+        break;
+      case EventMove.LEFT:
+        this.stepX = -1;
+        break;
+      case EventMove.RIGHT:
+        this.stepX = 1;
+        break;
+    }
+  },
 
-    const absScaleX = Math.abs(this.spine.scaleX);
-    this.spine.scaleX = this.isFaceRight ? absScaleX : -absScaleX;
+  onStopMove() {
+    this.isMoving = false;
+    this.anim.animation = "idle";
+  },
 
-    this.step = this.speed * dir;
+  getShootPoint() {
+    return this.shootPoint.convertToWorldSpaceAR(cc.v2(0, 0));
   },
 });

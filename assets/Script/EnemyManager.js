@@ -25,24 +25,26 @@ cc.Class({
 
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad () {
+  onLoad() {
     this.maxX = this.node.width;
     this.maxY = this.node.height;
     this.currentTime = 0;
+
+    let manager = cc.director.getCollisionManager();
+    manager.enabled = true;
   },
 
   start() {},
 
-  update (dt) {
-    if(this.currentTime >= this.secondSpawn){
-        this.currentTime = 0;
-        this.spawnEnemy();
+  update(dt) {
+    if (this.currentTime >= this.secondSpawn) {
+      this.currentTime = 0;
+      this.spawnEnemy();
     }
 
     this.currentTime += dt;
   },
 
-  spawnEnemy(){
-    
-  }
+  spawnEnemy() {},
+
 });
