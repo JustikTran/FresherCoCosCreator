@@ -47,6 +47,7 @@ cc.Class({
     this.healthProgress.progress = 1;
     this.node.x = this.x;
     this.node.y = this.y;
+    this.labeBase = this.dameLabel.node.position;
   },
 
   start() {
@@ -70,10 +71,41 @@ cc.Class({
     }
   },
 
+  onHit() {
+    cc.Tween.stopAllByTarget(this.node);
+
+    cc.tween(this.node)
+      .to(0.1, { color: cc.Color.RED })
+      .to(0.1, { color: cc.Color.WHITE })
+      .start();
+  },
+
+  showDamage(damage) {
+    const node = this.dameLabel.node;
+
+    cc.Tween.stopAllByTarget(node);
+
+    node.opacity = 255;
+    node.scale = 0.8;
+    node.setPosition(this.labeBase);
+
+    this.dameLabel.string = `-${damage}`;
+    node.x += (Math.random() - 0.5) * 20;
+
+    cc.tween(node)
+      .parallel(
+        cc.tween().to(0.5, { y: node.y + 40 }),
+        cc.tween().to(0.5, { opacity: 0 }),
+        cc.tween().to(0.1, { scale: 1.2 }).to(0.2, { scale: 1 })
+      )
+      .start();
+  },
+
   onCollisionEnter: function (other, self) {
     const dame = other.getComponent("BulletController").getDame();
     other.node.destroy();
-
+    this.onHit();
+    this.showDamage(dame);
     this.currentHp -= dame;
   },
 });

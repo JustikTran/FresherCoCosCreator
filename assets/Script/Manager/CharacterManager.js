@@ -25,7 +25,7 @@ cc.Class({
     this.lastShootTime = 0;
   },
 
-  update(dt) {},
+  update(dt) { },
 
   onListen(event) {
     switch (event.keyCode) {
@@ -82,7 +82,7 @@ cc.Class({
 
   onShoot() {
     let pointPosition = this.character.getComponent('Character').getShootPoint();
-    
+
     Emitter.instance.emit(EventCall.SHOOT, pointPosition);
     this.countDown = true;
   },

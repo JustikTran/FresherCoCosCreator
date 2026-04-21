@@ -23,11 +23,14 @@ cc.Class({
 
   onLoad() {
     this.isMoving = false;
+    this.isShooting = false;
     // this.targetX = 0;
     // this.currentX = this.node.x;
 
-    this.stepX = 0;
-    this.stepY = 0;
+    this.velocity = cc.v2(0, 0);
+    this.targetDirection = cc.v2(0, 0);
+
+
 
     Emitter.instance.registerEvent(
       EventCall.MOVE,
@@ -38,6 +41,12 @@ cc.Class({
       EventCall.STOP,
       this.onStopMove.bind(this),
       this,
+    );
+
+    Emitter.instance.registerEvent(
+      EventCall.SHOOT,
+      this.onShoot.bind(this),
+      this
     );
   },
 
@@ -50,9 +59,35 @@ cc.Class({
   },
 
   update(dt) {
-    if (this.isMoving) {
-      this.node.x += this.stepX * this.speed * dt;
-      this.node.y += this.stepY * this.speed * dt;
+    this.velocity = this.velocity.lerp(this.targetDirection, 0.2);
+    if (this.isShooting) {
+      return;
+    }
+    const parent = this.node.parent;
+
+    let newX = this.node.x + this.velocity.x * this.speed * dt;
+    let newY = this.node.y + this.velocity.y * this.speed * dt;
+
+    let clampedX = Math.max(0, Math.min(parent.width, newX));
+    let clampedY = Math.max(0, Math.min(parent.height, newY));
+
+    if (clampedX !== newX) {
+      this.velocity.x = 0;
+    }
+    if (clampedY !== newY) {
+      this.velocity.y = 0;
+    }
+
+    this.node.setPosition(clampedX, clampedY);
+
+    if (this.velocity.mag() > 0.01) {
+      if (this.anim.animation !== "walk") {
+        this.anim.animation = "walk";
+      }
+    } else {
+      if (this.anim.animation !== "idle") {
+        this.anim.animation = "idle";
+      }
     }
   },
 
@@ -61,29 +96,41 @@ cc.Class({
   },
 
   onMove(param) {
-    this.stepX = 0;
-    this.stepY = 0;
     this.isMoving = true;
 
     switch (param) {
       case EventMove.UP:
-        this.stepY = 1;
+        this.targetDirection.y = 1;
         break;
       case EventMove.DOWN:
-        this.stepY = -1;
+        this.targetDirection.y = -1;
         break;
       case EventMove.LEFT:
-        this.stepX = -1;
+        this.targetDirection.x = -1;
         break;
       case EventMove.RIGHT:
-        this.stepX = 1;
+        this.targetDirection.x = 1;
         break;
     }
+
+    this.targetDirection = this.targetDirection.normalize();
   },
 
   onStopMove() {
-    this.isMoving = false;
-    this.anim.animation = "idle";
+    // this.isMoving = false;
+    this.targetDirection = cc.v2(0, 0);
+  },
+
+  onShoot() {
+    if (this.isShooting) {
+      return;
+    }
+    this.isShooting = true;
+    this.anim.setAnimation(0, "shoot", false);
+    this.anim.setCompleteListener(() => {
+      this.isShooting = false;
+    });
+    this.anim.addAnimation(0, this.velocity.mag() > 0 ? "walk" : "idle", true);
   },
 
   getShootPoint() {
