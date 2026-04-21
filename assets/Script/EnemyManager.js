@@ -2,24 +2,20 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
-    dragonPrefab: {
-      type: cc.Prefab,
-      default: null,
-      serializable: true,
+    enemyPrefabs: {
+      default: [],
+      type: [cc.Prefab],
     },
-    wolfPrefab: {
-      type: cc.Prefab,
-      default: null,
-      serializable: true,
-    },
-    dogPrefab: {
-      type: cc.Prefab,
-      default: null,
-      serializable: true,
-    },
+
     secondSpawn: {
-      default: 2,
+      default: 3,
       serializable: true,
+    },
+
+    limitEnemy: {
+      default: 5,
+      type: cc.Integer,
+      visible: false,
     },
   },
 
@@ -37,14 +33,22 @@ cc.Class({
   start() {},
 
   update(dt) {
-    if (this.currentTime >= this.secondSpawn) {
-      this.currentTime = 0;
+    if (
+      // this.currentTime >= this.secondSpawn &&
+      this.limitEnemy > this.node.children.length
+    ) {
+      // this.currentTime = 0;
       this.spawnEnemy();
     }
 
-    this.currentTime += dt;
+    // this.currentTime += dt;
   },
 
-  spawnEnemy() {},
+  spawnEnemy() {
+    let enemy = cc.instantiate(this.enemyPrefabs[0]);
+    enemy.getComponent("EnemyController").init(100, 100);
+    enemy.parent = this.node;
+  },
 
+  randomPosition() {},
 });
