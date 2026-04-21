@@ -1,3 +1,5 @@
+const { RandomIndex, RandomPosition } = require("../Utils/Random");
+
 cc.Class({
   extends: cc.Component,
 
@@ -45,8 +47,12 @@ cc.Class({
   },
 
   spawnEnemy() {
-    let enemy = cc.instantiate(this.enemyPrefabs[0]);
-    enemy.getComponent("EnemyController").init(100, 100);
+    let randomIndex = RandomIndex(this.enemyPrefabs.length);
+    let randomPosition = RandomPosition(0, this.maxX, 0, this.maxY);
+    let enemy = cc.instantiate(this.enemyPrefabs[randomIndex]);
+    enemy
+      .getComponent("EnemyController")
+      .init(randomPosition.x, randomPosition.y);
     enemy.parent = this.node;
   },
 

@@ -35,8 +35,9 @@ cc.Class({
     },
   },
 
-  init(maxY) {
-    this.maxY = maxY;
+  init(x, y) {
+    this.x = x;
+    this.y = y;
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -44,10 +45,12 @@ cc.Class({
   onLoad() {
     this.dameLabel.string = "";
     this.healthProgress.progress = 1;
+    this.node.x = this.x;
+    this.node.y = this.y;
   },
 
   start() {
-    this.maxY = 500;
+    this.maxY = this.node.parent.height;
     this.currentHp = this.hp;
   },
 

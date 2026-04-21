@@ -1,5 +1,5 @@
-const { EventCall, EventMove } = require("./Config/GlobalVariable");
-const Emitter = require("./EventEmitter");
+const { EventCall, EventMove } = require("../Config/GlobalVariable");
+const Emitter = require("../EventEmitter");
 
 cc.Class({
   extends: cc.Component,

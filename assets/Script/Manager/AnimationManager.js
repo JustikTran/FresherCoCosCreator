@@ -1,4 +1,5 @@
-const Emitter = require("./EventEmitter");
+const mEmitter = require("../EventEmitter");
+
 cc.Class({
   extends: cc.Component,
 
@@ -16,9 +17,9 @@ cc.Class({
     this.currentMode = null;
 
     this.content.children = [];
-    Emitter.instance.registerEvent("SPINE", this.setSpine.bind(this), this);
-    Emitter.instance.registerEvent("MODE", this.setMode.bind(this), this);
-    Emitter.instance.registerEvent("RESET", this.removeEvent.bind(this), this);
+    mEmitter.instance.registerEvent("SPINE", this.setSpine.bind(this), this);
+    mEmitter.instance.registerEvent("MODE", this.setMode.bind(this), this);
+    mEmitter.instance.registerEvent("RESET", this.removeEvent.bind(this), this);
   },
 
   start() {
@@ -31,11 +32,11 @@ cc.Class({
   },
 
   removeEvent(){
-    Emitter.instance.removeAllEvent(this);
+    mEmitter.instance.removeAllEvent(this);
   },
 
   onDestroy() {
-    Emitter.instance.removeAllEvent(this);
+    mEmitter.instance.removeAllEvent(this);
   },
 
   setSpine(data) {
