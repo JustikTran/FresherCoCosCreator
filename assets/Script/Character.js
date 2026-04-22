@@ -30,7 +30,7 @@ cc.Class({
     this.velocity = cc.v2(0, 0);
     this.targetDirection = cc.v2(0, 0);
 
-
+    this.anim.setMix("idle", "shoot", 0.05);
 
     Emitter.instance.registerEvent(
       EventCall.MOVE,
@@ -46,7 +46,7 @@ cc.Class({
     Emitter.instance.registerEvent(
       EventCall.SHOOT,
       this.onShoot.bind(this),
-      this
+      this,
     );
   },
 
@@ -126,7 +126,8 @@ cc.Class({
       return;
     }
     this.isShooting = true;
-    this.anim.setAnimation(0, "shoot", false);
+    this.anim.setAnimation(1, "shoot", false);
+    this.anim.setAnimation(0, "idle", false);
     this.anim.setCompleteListener(() => {
       this.isShooting = false;
     });
