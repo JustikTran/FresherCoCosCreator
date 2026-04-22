@@ -477,7 +477,7 @@
     "speed": 75,
     "isMoving": false,
     "direction": 1,
-    "hp": 100,
+    "hp": 250,
     "dameLabel": {
       "__id__": 3
     },
