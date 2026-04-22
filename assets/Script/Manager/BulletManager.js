@@ -55,11 +55,12 @@ cc.Class({
     bullet.parent = this.node;
   },
 
+  // Extra: idea hard code => do not a final code.
   onChangeBullet(event) {
     switch (event.keyCode) {
       case cc.macro.KEY.e:
         console.log("normal");
-        this.currentBullet = this.bulletPrefabs[2];
+        this.currentBullet = this.bulletPrefabs[2]; 
         break;
       case cc.macro.KEY.r:
         console.log("dark");
