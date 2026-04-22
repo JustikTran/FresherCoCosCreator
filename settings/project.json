@@ -1,31 +1,30 @@
 {
   "collision-matrix": [
     [
-      true
+      false
     ],
     [
-      false,
-      false,
-      null,
-      true
-    ],
-    [
-      false,
       false,
       false
     ],
     [
       false,
-      true,
       false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      true,
       false
     ]
   ],
   "excluded-modules": [],
   "group-list": [
     "default",
-    "Enemy",
     "Player",
+    "Enemy",
     "Bullet"
   ],
   "design-resolution-width": 1560,

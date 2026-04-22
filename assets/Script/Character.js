@@ -51,9 +51,9 @@ cc.Class({
   },
 
   start() {
-    // this.labelName.string = this.charName;
-    // this.currentMana = this.mana;
-    // this.updateProcess();
+    this.labelName.string = this.charName;
+    this.currentMana = this.mana;
+    this.updateProcess();
 
     this.getShootPoint();
   },
