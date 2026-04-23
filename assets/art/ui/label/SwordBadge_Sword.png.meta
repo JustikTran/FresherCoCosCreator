@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "df412b29-8e8d-48ca-9642-00afc552b010",
+  "uuid": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "df412b29-8e8d-48ca-9642-00afc552b010@6c48a",
-      "displayName": "Slider_Border_EdgeDeco_02_Border",
+      "uuid": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9@6c48a",
+      "displayName": "SwordBadge_Sword",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "df412b29-8e8d-48ca-9642-00afc552b010",
+        "imageUuidOrDatabaseUri": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "df412b29-8e8d-48ca-9642-00afc552b010@f9941",
-      "displayName": "Slider_Border_EdgeDeco_02_Border",
+      "uuid": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9@f9941",
+      "displayName": "SwordBadge_Sword",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -46,14 +46,14 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 61,
-        "height": 36,
-        "rawWidth": 61,
-        "rawHeight": 36,
+        "width": 81,
+        "height": 196,
+        "rawWidth": 81,
+        "rawHeight": 196,
         "borderTop": 0,
         "borderBottom": 0,
-        "borderLeft": 26,
-        "borderRight": 26,
+        "borderLeft": 0,
+        "borderRight": 0,
         "packable": true,
         "pixelsToUnit": 100,
         "pivotX": 0.5,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -30.5,
-            -18,
+            -40.5,
+            -98,
             0,
-            30.5,
-            -18,
+            40.5,
+            -98,
             0,
-            -30.5,
-            18,
+            -40.5,
+            98,
             0,
-            30.5,
-            18,
+            40.5,
+            98,
             0
           ],
           "indexes": [
@@ -84,12 +84,12 @@
           ],
           "uv": [
             0,
-            36,
-            61,
-            36,
+            196,
+            81,
+            196,
             0,
             0,
-            61,
+            81,
             0
           ],
           "nuv": [
@@ -103,18 +103,18 @@
             1
           ],
           "minPos": [
-            -30.5,
-            -18,
+            -40.5,
+            -98,
             0
           ],
           "maxPos": [
-            30.5,
-            18,
+            40.5,
+            98,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "df412b29-8e8d-48ca-9642-00afc552b010@6c48a",
+        "imageUuidOrDatabaseUri": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "df412b29-8e8d-48ca-9642-00afc552b010@f9941"
+    "redirect": "7611ddce-f3ca-4af5-bec1-4f6d1ba79fa9@f9941"
   }
 }

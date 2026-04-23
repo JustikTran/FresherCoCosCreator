@@ -1,7 +1,13 @@
 {
-  "name": "GameDemo",
+  "name": "game-demo",
+  "author": {
+    "name": "Justik Tran"
+  },
   "uuid": "62fbc302-3fcf-4ca3-8021-419f69bf2a73",
   "creator": {
     "version": "3.7.3"
+  },
+  "dependencies": {
+    "events": "^3.3.0"
   }
 }
