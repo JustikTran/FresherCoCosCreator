@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2, sp, v2, UITransform } from 'cc';
+import { _decorator, Component, Node, Vec2, sp, v2, UITransform, Vec3 } from 'cc';
 import { EventCall, EventMove } from '../config/State';
 import { mEmitter } from '../utils/EventBus';
 const { ccclass, property } = _decorator;
@@ -51,6 +51,11 @@ export class CharacterController extends Component {
     }
 
     update(deltaTime: number): void {
+        if (this._targetDirection === Vec2.ZERO) {
+            this.animation.setAnimation(0, 'idle', true);
+            return;
+        }
+
         this._velocity = this._velocity.clone().lerp(this._targetDirection, 0.2);
         if (this._isShooting) {
             return;
@@ -104,7 +109,6 @@ export class CharacterController extends Component {
 
     onStopMove(): void {
         this._targetDirection = Vec2.ZERO;
-        this._targetDirection = this._targetDirection.normalize();
     }
 
     onShoot(): void {
@@ -113,15 +117,15 @@ export class CharacterController extends Component {
         }
         this._isShooting = true;
         this.animation.setAnimation(1, "shoot", false);
-        this.animation.setAnimation(0, "idle", false);
+        this.animation.setAnimation(0, "idle-turn", false);
         this.animation.setCompleteListener(() => {
             this._isShooting = false;
         });
-        this.animation.addAnimation(0, this._velocity.length() > 0 ? "walk" : "idle", true);
+        this.animation.setAnimation(0, this._velocity.length() > 0 ? "walk" : "idle", true);
     }
 
-    public getShootPoint(): Vec2 {
-        return new Vec2(this.node.worldPosition.x, this.node.worldPosition.y);
+    public getShootPoint(): Vec3 {
+        return new Vec3(this.shootPoint.worldPosition.x, this.shootPoint.worldPosition.y, 0);
     }
 }
 

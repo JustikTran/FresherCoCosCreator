@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, input, Input, Vec2, EventKeyboard, KeyCode } from 'cc';
+import { _decorator, Component, Node, input, Input, Vec2, EventKeyboard, KeyCode, Vec3 } from 'cc';
 import { EventCall, EventMove } from '../config/State';
 import { CharacterController } from '../controller/CharacterController';
 import { Singleton } from '../utils/decorator/Singleton';
@@ -9,17 +9,21 @@ const { ccclass, property } = _decorator;
 @ccclass('CharacterManager')
 export class CharacterManager extends Component {
     @property({ visible: true, type: Node })
-    character: Node | null = null;
+    character: Node
     @property()
     attackRate: number = 0.3;
 
     //#region private property
     private _lastShootTime: number = 0;
+    private _characterComponent: CharacterController;
     //#endregion
 
     onLoad(): void {
+        this._characterComponent = this.character.getComponent(CharacterController);
+
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
+
     }
 
     start(): void {
@@ -37,7 +41,7 @@ export class CharacterManager extends Component {
             case KeyCode.SPACE:
                 this.tryShoot();
                 break;
-            case KeyCode.KEY_A:          
+            case KeyCode.KEY_A:
                 mEmitter.instance.emit(EventCall.MOVE, EventMove.LEFT);
                 break;
             case KeyCode.KEY_W:
@@ -55,17 +59,18 @@ export class CharacterManager extends Component {
     private onKeyUp(event: EventKeyboard): void {
         switch (event.keyCode) {
             case KeyCode.KEY_A:
-                mEmitter.instance.emit(EventCall.MOVE, EventMove.LEFT);
-                break;
-            case KeyCode.KEY_W:
-                mEmitter.instance.emit(EventCall.MOVE, EventMove.UP);
+                mEmitter.instance.emit(EventCall.STOP);
                 break;
             case KeyCode.KEY_S:
-                mEmitter.instance.emit(EventCall.MOVE, EventMove.DOWN);
+                mEmitter.instance.emit(EventCall.STOP);
                 break;
             case KeyCode.KEY_D:
-                mEmitter.instance.emit(EventCall.MOVE, EventMove.RIGHT);
+                mEmitter.instance.emit(EventCall.STOP);
                 break;
+            case KeyCode.KEY_W:
+                mEmitter.instance.emit(EventCall.STOP);
+                break;
+
         }
     }
 
@@ -81,7 +86,7 @@ export class CharacterManager extends Component {
     }
 
     onShoot(): void {
-        const pointPosition = this.character.getComponent(CharacterController).getShootPoint();
+        const pointPosition = this._characterComponent.getShootPoint();        
         mEmitter.instance.emit(EventCall.SHOOT, pointPosition);
     }
 }

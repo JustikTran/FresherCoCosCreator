@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, director, Node } from 'cc';
 import { EventCall, State } from '../config/State';
 import { mEmitter } from '../utils/EventBus';
 const { ccclass, property } = _decorator;
@@ -38,8 +38,7 @@ export class GlobalManager extends Component {
                 this.loadingScene.active = true;
                 break;
             case State.START:
-                this.inactiveScene();
-                this.startScene.active = true;
+                director.loadScene("Game");
                 break;
             case State.SETTING:
                 this.settingPopup.active = true;

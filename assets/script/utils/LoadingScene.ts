@@ -1,4 +1,4 @@
-import { _decorator, Component, ProgressBar, Label } from 'cc';
+import { _decorator, Component, ProgressBar, Label, director } from 'cc';
 import { mEmitter } from './EventBus';
 import { EventCall, State } from '../config/State';
 const { ccclass, property } = _decorator;
@@ -114,8 +114,9 @@ export class LoadingScene extends Component {
 
     private _onFinish() {
         this.scheduleOnce(() => {
-            this.node.active = false;
-            mEmitter.instance.emit(EventCall.SHOW, State.START);
+            // this.node.active = false;
+            director.loadScene("Start");
+            // mEmitter.instance.emit(EventCall.SHOW, State.START);/
         }, 0.2);
     }
 }
