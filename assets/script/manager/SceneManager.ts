@@ -6,11 +6,15 @@ const { ccclass, property } = _decorator;
 @ccclass('SceneManager')
 export class SceneManager extends Component {
 
-    startGame(){
+    startGame() {
         mEmitter.instance.emit(EventCall.SHOW, State.GAME);
     }
-    
-    showSetting(){
+
+    showLobby() {
+        mEmitter.instance.emit(EventCall.SHOW, State.START);
+    }
+
+    showSetting() {
         mEmitter.instance.emit(EventCall.SHOW, State.SETTING);
     }
 }
