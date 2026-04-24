@@ -38,6 +38,21 @@ export class LoadingScene extends Component {
         this._buildSegments();
     }
 
+    onEnable(): void {
+        this._resetState();
+        this._buildSegments();
+        this._render();
+    }
+
+    private _resetState() {
+        this._currentSegIdx = 0;
+        this._segTime = 0;
+
+        this._displayProgress = 0;
+        this._realProgress = 0;
+        this._realDone = false;
+    }
+
     public setRealProgress(p: number) {
         this._realProgress = Math.max(0, Math.min(1, p));
         if (this._realProgress >= 1) {

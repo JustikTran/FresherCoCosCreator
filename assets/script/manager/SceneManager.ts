@@ -11,7 +11,7 @@ export class SceneManager extends Component {
     }
 
     showLobby() {
-        mEmitter.instance.emit(EventCall.SHOW, State.START);
+        mEmitter.instance.emit(EventCall.SHOW, State.LOADING);
     }
 
     showSetting() {
