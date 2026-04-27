@@ -16,3 +16,10 @@ export enum GameState {
     GAME_OVER
 }
 
+export const Config = {
+    GAME_WIDTH: 800,
+    GAME_HEIGHT: 600,
+    BULLET_STRAIGHT: 1600,
+    
+}
+
