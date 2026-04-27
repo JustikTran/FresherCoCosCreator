@@ -1,7 +1,12 @@
 export enum EventType {
-    UPDATE_SCORE = "update_score",
-    GAME_OVER = "game_over",
-    GAME_START = "game_start"
+    SHOOT = 'shoot',
+    HIT = 'hit',
+    GAME_OVER = 'game_over',
+    GAME_START = 'game_start',
+    MOVE = 'move',
+    STOP = 'stop',
+    SKILL1 = 'skill1',
+    SKILL2 = 'skill2'
 }
 
 export enum GameState {
@@ -10,3 +15,4 @@ export enum GameState {
     PLAYING,
     GAME_OVER
 }
+
