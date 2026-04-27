@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Component, Label, Node, ProgressBar, UITransform, Vec3 } from 'cc';
+import { _decorator, CCInteger, Component, Label, Node, ProgressBar, Size, tween, UITransform, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('BaseEnemy')
@@ -20,6 +20,8 @@ export class BaseEnemy extends Component {
     @property({ group: { name: 'References', displayOrder: 1 }, type: Label })
     damageLabel: Label = null;
 
+    private _parentWidth: number = null;
+
     init(position: Vec3): void {
         this.node.setPosition(position);
     }
@@ -27,15 +29,19 @@ export class BaseEnemy extends Component {
     start(): void {
         this.damageLabel.string = '';
         this.hpProgress.progress = 1;
+        this._parentWidth = this.node.parent.getComponent(UITransform).contentSize.width;
+        this._onMove(0);
     }
 
-    update(deltaTime: number): void {
-        if (this.target.position.x <= -800) {
-            this._onAttack();
-        } else {
-            this._onMove(deltaTime);
-        }
-    }
+    // update(deltaTime: number): void {
+    //     if (this._checkTarget()) {
+    //         console.log(this.target.position.x);
+
+    //         this._onAttack();
+    //     } else {
+    //         this._onMove(deltaTime);
+    //     }
+    // }
 
     onDestroy(): void {
         this.scheduleOnce(() => {
@@ -43,10 +49,21 @@ export class BaseEnemy extends Component {
         }, 0.5);
     }
 
+    private _checkTarget(): boolean {
+        const targetPosition = this.target.worldPosition;
+        const localPosition = new Vec3();
+        this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(targetPosition, localPosition);
+        return localPosition.x >= this._parentWidth;
+    }
+
     private _onMove(deltaTime: number): void {
-        const position = this.node.position;
-        const direction = this.speed * deltaTime;
-        this.node.setPosition(position.x - direction, position.y);
+        // const position = this.node.position;
+        // const direction = this.speed * deltaTime;
+        // this.node.setPosition(position.x - direction, position.y);
+        tween(this.node)
+            .delay(3)
+            .to(15, { position: new Vec3(-800, this.node.position.y, this.node.position.z) })
+            .start();
     }
 
     private _onAttack(): void {
