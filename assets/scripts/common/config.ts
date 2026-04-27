@@ -6,7 +6,8 @@ export enum EventType {
     MOVE = 'move',
     STOP = 'stop',
     SKILL1 = 'skill1',
-    SKILL2 = 'skill2'
+    SKILL2 = 'skill2',
+    SPAWN_BULLET = 'spawn_bullet',
 }
 
 export enum GameState {

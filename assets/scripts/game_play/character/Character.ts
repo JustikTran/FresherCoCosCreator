@@ -1,30 +1,33 @@
-import { _decorator, Component, EventKeyboard, Input, input, Node, sp, Vec3, director, UITransform, tween, CCInteger } from 'cc';
+import { _decorator, Component, Node, sp, Vec3, UITransform, CCInteger, CCFloat } from 'cc';
 import { EventType } from 'db://assets/scripts/common/config';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Character')
 export class Character extends Component {
-    @property(CCInteger)
+    @property({ group: { name: 'Attributes', displayOrder: 0 }, type: CCInteger })
     speed = 10;
-
-    @property({ group: { name: 'References', displayOrder: 0 }, type: Node })
+    @property({ group: { name: 'Attributes', displayOrder: 1 }, type: CCFloat })
+    attackRate = 0.5;
+    @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
     sprite: Node = null;
-    @property({ group: { name: 'References', displayOrder: 0 }, type: sp.Skeleton })
+    @property({ group: { name: 'References', displayOrder: 1 }, type: sp.Skeleton })
     animation: sp.Skeleton = null;
-    @property({ group: { name: 'References', displayOrder: 0 }, type: Node })
+    @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
     shootPoint: Node = null;
 
     private _direction: Vec3 = Vec3.ZERO;
     private _velocity: Vec3 = new Vec3();
     private _isShooting: boolean = false;
     private _isSpawning: boolean = false;
+    private _lastShootTime: number = 0;
 
     start() {
         EventManager.instance.register(EventType.MOVE, this._onMove.bind(this), this);
         EventManager.instance.register(EventType.STOP, this._onStop.bind(this), this);
         EventManager.instance.register(EventType.SHOOT, this._onShoot.bind(this), this);
         this._spawn();
+        this._lastShootTime = 0;
     }
 
     update(deltaTime: number) {
@@ -92,6 +95,12 @@ export class Character extends Component {
         if (this._isShooting || this._isSpawning) {
             return;
         }
+        if (!this._canShoot()) {
+            return;
+        }
+        const now = performance.now() / 1000;
+        this._lastShootTime = now;
+
         this._isShooting = true;
         this.animation.setAnimation(0, 'shoot', false);
         // this.animation.setAnimation(1, 'idle', false);
@@ -99,6 +108,11 @@ export class Character extends Component {
             this._isShooting = false;
         });
         this.animation.setAnimation(0, this._velocity.length() > 0 ? "run" : "idle", true);
+    }
+
+    private _canShoot(): boolean {
+        const now = performance.now() / 1000;
+        return now - this._lastShootTime >= this.attackRate;
     }
 
     public getShootPosition(): Vec3 {
