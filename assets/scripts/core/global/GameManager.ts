@@ -3,6 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
 export class GameManager extends Component {
+    public static instance: GameManager;
 
     @property({ group: { name: 'Popup', displayOrder: 1 }, type: Node })
     settingPopup: Node = null;
@@ -13,12 +14,25 @@ export class GameManager extends Component {
     @property({ group: { name: 'Popup', displayOrder: 1 }, type: Node })
     gameClearPopup: Node = null;
 
+    onLoad(): void {
+        if (!GameManager.instance) {
+            GameManager.instance = this;
+        } else {
+            this.node.destroy();
+            return;
+        }
+    }
+
     start() {
         this.allPopupHide();
     }
 
     update(deltaTime: number) {
 
+    }
+
+    public switchScene(): void {
+        director.loadScene('loading');
     }
 
     public allPopupHide() {

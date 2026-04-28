@@ -1,5 +1,5 @@
 import { _decorator, Component, EventKeyboard, Input, input, KeyCode, Node, Vec3 } from 'cc';
-import { EventType } from 'db://assets/scripts/common/config';
+import { EventType } from 'db://assets/scripts/common/Config';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 const { ccclass, property } = _decorator;
 
