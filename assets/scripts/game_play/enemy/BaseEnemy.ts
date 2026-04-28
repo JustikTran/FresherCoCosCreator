@@ -1,4 +1,5 @@
-import { _decorator, CCInteger, Component, Label, Node, ProgressBar, Size, tween, UITransform, Vec3 } from 'cc';
+import { _decorator, CCInteger, CircleCollider2D, Collider2D, Component, Contact2DType, Label, log, Node, ProgressBar, RigidBody2D, Size, tween, UIOpacity, UITransform, Vec3 } from 'cc';
+import { Bullet } from 'db://assets/scripts/game_play/bullet/Bullet';
 const { ccclass, property } = _decorator;
 
 @ccclass('BaseEnemy')
@@ -17,36 +18,56 @@ export class BaseEnemy extends Component {
     skin: UITransform = null;
     @property({ group: { name: 'References', displayOrder: 1 }, type: ProgressBar })
     hpProgress: ProgressBar = null;
-    @property({ group: { name: 'References', displayOrder: 1 }, type: Label })
-    damageLabel: Label = null;
+    @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
+    damageLabel: Node = null;
 
+    private _currentHp: number = 0;
     private _parentWidth: number = null;
+    private _labelPosition: Vec3 = Vec3.ZERO;
+    private _labelString: Label = null;
+    private _labelOpacity: UIOpacity;
+    private _collider: CircleCollider2D;
 
     init(position: Vec3): void {
         this.node.setPosition(position);
     }
 
+    onLoad(): void {
+        this._currentHp = this.hp;
+        this._labelPosition = this.damageLabel.position;
+        this._labelString = this.damageLabel.getComponent(Label);
+        this._labelOpacity = this.damageLabel.getComponent(UIOpacity);
+    }
+
     start(): void {
-        this.damageLabel.string = '';
+        this._labelString.string = '';
         this.hpProgress.progress = 1;
         this._parentWidth = this.node.parent.getComponent(UITransform).contentSize.width;
         this._onMove(0);
+
+        this._collider = this.getComponent(CircleCollider2D);
+        if (this._collider) {
+            this._collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact.bind(this), this);
+        }
     }
 
-    // update(deltaTime: number): void {
-    //     if (this._checkTarget()) {
-    //         console.log(this.target.position.x);
+    update(deltaTime: number): void {
+        // if (this._checkTarget()) {
+        //     console.log(this.target.position.x);
 
-    //         this._onAttack();
-    //     } else {
-    //         this._onMove(deltaTime);
-    //     }
-    // }
+        //     this._onAttack();
+        // } else {
+        //     this._onMove(deltaTime);
+        // }
 
-    onDestroy(): void {
-        this.scheduleOnce(() => {
-            this.node.destroy();
-        }, 0.5);
+        if (this._currentHp <= 0) {
+            this._collider.off(Contact2DType.BEGIN_CONTACT, this._onBeginContact.bind(this), this);
+            this.getComponent(RigidBody2D).enabled = false;
+
+            this.scheduleOnce(() => {
+                this.node.destroy();
+            }, 0.5);
+        }
     }
 
     private _checkTarget(): boolean {
@@ -56,12 +77,12 @@ export class BaseEnemy extends Component {
         return localPosition.x >= this._parentWidth;
     }
 
-    private _onMove(deltaTime: number): void {
+    _onMove(deltaTime: number): void {
         // const position = this.node.position;
         // const direction = this.speed * deltaTime;
         // this.node.setPosition(position.x - direction, position.y);
         tween(this.node)
-            .delay(3)
+            // .delay(3)
             .to(15, { position: new Vec3(-800, this.node.position.y, this.node.position.z) })
             .start();
     }
@@ -71,9 +92,19 @@ export class BaseEnemy extends Component {
     }
 
     private _onHurt(damage: number): void {
-        this.hp -= damage;
-        this.damageLabel.string = `-${damage}`;
-        this.hpProgress.progress = this.hp / 100;
+        this._currentHp -= damage;
+        this._labelString.string = `-${damage}`;
+        this.hpProgress.progress = this._currentHp / this.hp;
+        this._labelOpacity.opacity = 255;
+        tween(this._labelOpacity)
+            .to(0.6, { opacity: 0 })
+            .start();
+    }
+
+    private _onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D): void {
+        const dame = otherCollider.getComponent(Bullet).getDamage();
+        otherCollider.node.destroy();
+        this._onHurt(dame);
     }
 }
 
