@@ -1,5 +1,5 @@
 import { _decorator, CCInteger, Component, Node, tween, Vec3 } from 'cc';
-import { Config } from 'db://assets/scripts/common/config';
+import { Config } from 'db://assets/scripts/common/Config';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bullet')
