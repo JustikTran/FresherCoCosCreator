@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { EventType } from 'db://assets/scripts/common/config';
+import { EventType } from 'db://assets/scripts/common/Config';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 import { Character } from 'db://assets/scripts/game_play/character/Character';
 const { ccclass, property } = _decorator;

@@ -1,5 +1,5 @@
 import { _decorator, Component, instantiate, Node, Prefab, Vec3 } from 'cc';
-import { EventType } from 'db://assets/scripts/common/config';
+import { EventType } from 'db://assets/scripts/common/Config';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 import { Bullet } from 'db://assets/scripts/game_play/bullet/Bullet';
 const { ccclass, property } = _decorator;
