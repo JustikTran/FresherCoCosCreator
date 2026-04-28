@@ -28,6 +28,8 @@ export class BaseEnemy extends Component {
     private _labelOpacity: UIOpacity;
     private _collider: CircleCollider2D;
 
+    isStopMove: boolean = false;
+
     init(position: Vec3): void {
         this.node.setPosition(position);
     }
@@ -43,7 +45,8 @@ export class BaseEnemy extends Component {
         this._labelString.string = '';
         this.hpProgress.progress = 1;
         this._parentWidth = this.node.parent.getComponent(UITransform).contentSize.width;
-        this._onMove(0);
+        this.isStopMove = false;
+        this.onMove(0);
 
         this._collider = this.getComponent(CircleCollider2D);
         if (this._collider) {
@@ -59,7 +62,6 @@ export class BaseEnemy extends Component {
         // } else {
         //     this._onMove(deltaTime);
         // }
-
         if (this._currentHp <= 0) {
             this._collider.off(Contact2DType.BEGIN_CONTACT, this._onBeginContact.bind(this), this);
             this.getComponent(RigidBody2D).enabled = false;
@@ -76,19 +78,14 @@ export class BaseEnemy extends Component {
         this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(targetPosition, localPosition);
     }
 
-    _onMove(deltaTime: number): void {
-        // const position = this.node.position;
-        // const direction = this.speed * deltaTime;
-        // this.node.setPosition(position.x - direction, position.y);
+    onMove(deltaTime: number): void {
         tween(this.node)
-            // .delay(3)
             .to(15, { position: new Vec3(-800, this.node.position.y, this.node.position.z) })
-            .call(this._checkTarget.bind(this))
+            .call(() => this.isStopMove = true)
             .start();
     }
 
-    private _onAttack(): void {
-
+    onAttack(): void {
     }
 
     private _onHurt(damage: number): void {

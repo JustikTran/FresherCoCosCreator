@@ -14,14 +14,14 @@ export class Bullet extends Component {
     }
 
     start(): void {
-        this._onMove();
+        this.onMove();
     }
 
     onDestroy(): void {
         this.node.destroy();
     }
 
-    private _onMove(): void {
+    onMove(): void {
         tween(this.node)
             .to(2, { position: new Vec3(Config.BULLET_STRAIGHT, this.node.position.y, this.node.position.z) })
             .start();

@@ -8,20 +8,28 @@ const { ccclass, property } = _decorator;
 export class BulletManager extends Component {
     @property({ type: [Prefab] })
     bulletPrefabs: Prefab[] = [];
+    @property({ type: Prefab })
+    enemyBullet: Prefab = null;
 
     private _currentBullet: Prefab;
 
     onLoad(): void {
 
-        this._currentBullet = this.bulletPrefabs[0];
         EventManager.instance.register(
             EventType.SPAWN_BULLET,
             this._onShoot.bind(this),
             this,
         );
+
+        EventManager.instance.register(
+            EventType.ENEMY_ATTACK,
+            this._onEnemyAttack.bind(this),
+            this,
+        );
     }
 
     private _onShoot(worldPosition: Vec3) {
+        this._currentBullet = this.bulletPrefabs[0];
         let spawnPosition = new Vec3();
         this.node.inverseTransformPoint(spawnPosition, worldPosition);
         this._spawnBullet(spawnPosition);
@@ -35,6 +43,14 @@ export class BulletManager extends Component {
         const bullet = instantiate(this._currentBullet);
         bullet.getComponent(Bullet).init(position);
         bullet.parent = this.node;
+    }
+
+    private _onEnemyAttack(worldPosition: Vec3) {
+        this._currentBullet = this.enemyBullet;
+        let spawnPosition = new Vec3();
+        this.node.inverseTransformPoint(spawnPosition, worldPosition);
+        this._spawnBullet(spawnPosition);
+
     }
 }
 

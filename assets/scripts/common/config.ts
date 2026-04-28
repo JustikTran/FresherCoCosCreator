@@ -8,14 +8,20 @@ export enum EventType {
     SKILL1 = 'skill1',
     SKILL2 = 'skill2',
     SPAWN_BULLET = 'spawn_bullet',
-    UPDATE_ENEMY_PROGRESS = 'update_enemy_progress'
+    UPDATE_ENEMY_PROGRESS = 'update_enemy_progress',
+    UPDATE_TOWER_HP = 'update_tower_hp',
+    CALL_SCENE = 'callScene',
+    ENEMY_ATTACK = 'enemy_attack',
 }
 
 export enum GameState {
+    NONE,
     LOADING,
     START,
+    MAIN_MENU,
     PLAYING,
-    GAME_OVER
+    GAME_OVER,
+    GAME_CLEAR
 }
 
 export enum EnemyType {

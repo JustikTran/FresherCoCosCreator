@@ -1,4 +1,6 @@
 import { _decorator, Component, director, Label, Node, ProgressBar, tween } from 'cc';
+import { EventType } from 'db://assets/scripts/common/Config';
+import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Loading')
@@ -13,6 +15,8 @@ export class Loading extends Component {
     private _progress = { value: 0 };
 
     start() {
+        EventManager.instance.register(EventType.CALL_SCENE, this.setCallScene.bind(this), this);
+
         this._loading();
     }
 
@@ -61,6 +65,7 @@ export class Loading extends Component {
             return;
         }
         this._sceneName = sceneName;
+        this._loading();
     }
 }
 

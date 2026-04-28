@@ -1,11 +1,11 @@
 import { _decorator, CCInteger, Component, instantiate, Node, Prefab, UITransform, Vec3 } from 'cc';
-import { BaseEnemy } from 'db://assets/scripts/game_play/enemy/BaseEnemy';
 import { RandomIndex, RandomPosition } from 'db://assets/scripts/utils/Random';
 import { Config, EnemyType, EventType } from '../../common/Config';
 import { RelativePosition } from '../../game_play/enemy/RelativePosition';
 import { AbsolutePosition } from '../../game_play/enemy/AbsolutePosition';
 import { Boss } from '../../game_play/enemy/Boss';
 import { EventManager } from '../global/EventManager';
+import { GameManager } from 'db://assets/scripts/core/global/GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemyManager')
@@ -39,6 +39,11 @@ export class EnemyManager extends Component {
         if (this._isLastBoss) {
             return;
         }
+        if (this._currentTotal >= this.limit && this.node.children.length === 0 && this._isLastBoss) {
+            GameManager.instance.showGameClearPopup();
+            return;
+        }
+
         if (this._currentTotal >= this.limit && this._timeSpawn >= Config.SPAWN_BOSS_TIME) {
             this._spawnEnemy(EnemyType.BOSS);
             this._timeSpawn = 0;

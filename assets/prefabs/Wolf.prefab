@@ -642,6 +642,8 @@
       "__id__": 0
     },
     "fileId": "30WO5ff0pGDoGhTrem36p4",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -1080,7 +1082,7 @@
       "__id__": 51
     },
     "hp": 200,
-    "damage": 12,
+    "damage": 8,
     "speed": 100,
     "target": {
       "__id__": 36
@@ -1097,6 +1099,7 @@
     "damageLabel": {
       "__id__": 28
     },
+    "attackRate": 1.5,
     "_id": ""
   },
   {
