@@ -173,7 +173,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 529.9363057324841,
+    "_orthoHeight": 503.0287206266318,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -1793,7 +1793,7 @@
         "__id__": 124
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 128
@@ -3734,7 +3734,10 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": null,
+    "_normalSprite": {
+      "__uuid__": "2013435d-fdd2-4455-ae93-4882743a3bd8@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
@@ -4253,7 +4256,10 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": null,
+    "_normalSprite": {
+      "__uuid__": "2013435d-fdd2-4455-ae93-4882743a3bd8@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
@@ -4728,7 +4734,7 @@
         "__id__": 173
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 177
@@ -6511,7 +6517,7 @@
         "__id__": 214
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 218
@@ -7325,7 +7331,7 @@
     "__prefab": null,
     "clickEvents": [],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 3,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 214,
@@ -7995,7 +8001,7 @@
         "__id__": 262
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 266
@@ -8816,7 +8822,7 @@
       }
     ],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 3,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 214,
@@ -9108,7 +9114,7 @@
     "__prefab": null,
     "clickEvents": [],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 3,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 214,
@@ -9390,7 +9396,7 @@
     "__prefab": null,
     "clickEvents": [],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 3,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 214,
