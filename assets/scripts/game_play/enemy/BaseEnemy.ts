@@ -70,11 +70,10 @@ export class BaseEnemy extends Component {
         }
     }
 
-    private _checkTarget(): boolean {
+    private _checkTarget() {
         const targetPosition = this.target.worldPosition;
         const localPosition = new Vec3();
         this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(targetPosition, localPosition);
-        return localPosition.x >= this._parentWidth;
     }
 
     _onMove(deltaTime: number): void {
@@ -84,6 +83,7 @@ export class BaseEnemy extends Component {
         tween(this.node)
             // .delay(3)
             .to(15, { position: new Vec3(-800, this.node.position.y, this.node.position.z) })
+            .call(this._checkTarget.bind(this))
             .start();
     }
 
