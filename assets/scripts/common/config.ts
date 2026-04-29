@@ -12,6 +12,7 @@ export enum EventType {
     UPDATE_TOWER_HP = 'update_tower_hp',
     CALL_SCENE = 'callScene',
     ENEMY_ATTACK = 'enemy_attack',
+    BOSS_ATTACK = 'boss_attack'
 }
 
 export enum GameState {

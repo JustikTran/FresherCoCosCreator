@@ -44,7 +44,7 @@ export class EnemyManager extends Component {
             return;
         }
 
-        if (this._currentTotal >= this.limit && this._timeSpawn >= Config.SPAWN_BOSS_TIME) {
+        if (this._currentTotal >= this.limit) {
             this._spawnEnemy(EnemyType.BOSS);
             this._timeSpawn = 0;
             this._isLastBoss = true;

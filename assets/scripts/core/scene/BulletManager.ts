@@ -4,6 +4,11 @@ import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 import { Bullet } from 'db://assets/scripts/game_play/bullet/Bullet';
 const { ccclass, property } = _decorator;
 
+interface IBossAttacK {
+    damage: number,
+    worldPosition: Vec3
+}
+
 @ccclass('BulletManager')
 export class BulletManager extends Component {
     @property({ type: [Prefab] })
@@ -26,6 +31,12 @@ export class BulletManager extends Component {
             this._onEnemyAttack.bind(this),
             this,
         );
+
+        EventManager.instance.register(
+            EventType.BOSS_ATTACK,
+            this._onBossAttack.bind(this),
+            this
+        )
     }
 
     private _onShoot(worldPosition: Vec3) {
@@ -35,13 +46,13 @@ export class BulletManager extends Component {
         this._spawnBullet(spawnPosition);
     }
 
-    private _spawnBullet(position: Vec3) {
+    private _spawnBullet(position: Vec3, damage?: number | null) {
         if (!this._currentBullet) {
             return;
         }
 
         const bullet = instantiate(this._currentBullet);
-        bullet.getComponent(Bullet).init(position);
+        bullet.getComponent(Bullet).init(position, damage);
         bullet.parent = this.node;
     }
 
@@ -50,7 +61,13 @@ export class BulletManager extends Component {
         let spawnPosition = new Vec3();
         this.node.inverseTransformPoint(spawnPosition, worldPosition);
         this._spawnBullet(spawnPosition);
+    }
 
+    private _onBossAttack(attackInfo: IBossAttacK) {
+        this._currentBullet = this.enemyBullet;
+        let spawnPosition = new Vec3();
+        this.node.inverseTransformPoint(spawnPosition, attackInfo.worldPosition);
+        this._spawnBullet(spawnPosition, attackInfo.damage);
     }
 }
 

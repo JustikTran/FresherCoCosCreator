@@ -9,8 +9,11 @@ export class Bullet extends Component {
     @property(CCInteger)
     damage = 10;
 
-    init(position: Vec3): void {
+    init(position: Vec3, damage?: number | null): void {
         this.node.setPosition(position);
+        if (damage) {
+            this.damage = damage;
+        }
     }
 
     start(): void {

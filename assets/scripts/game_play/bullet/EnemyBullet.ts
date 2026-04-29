@@ -18,6 +18,10 @@ export class EnemyBullet extends Bullet {
             .to(2, { position: new Vec3(this.node.position.x - Config.BULLET_STRAIGHT, this.node.position.y, this.node.position.z) })
             .start();
     }
+
+    public setDame(dame: number): void {
+        this.damage = dame;
+    }
 }
 
 
