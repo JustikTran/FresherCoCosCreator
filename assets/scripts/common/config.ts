@@ -1,3 +1,4 @@
+import { IState } from '../utils/StateManage';
 export enum EventType {
     SHOOT = 'shoot',
     HIT = 'hit',
@@ -15,14 +16,23 @@ export enum EventType {
     BOSS_ATTACK = 'boss_attack'
 }
 
-export enum GameState {
-    NONE,
-    LOADING,
-    START,
-    MAIN_MENU,
-    PLAYING,
-    GAME_OVER,
-    GAME_CLEAR
+export const GameState = {
+    START: {
+        from: 'loading',
+        to: 'start'
+    },
+    HOME: {
+        from: 'start',
+        to: 'home'
+    },
+    BACK: {
+        from: 'game_room',
+        to: 'home'
+    },
+    PlAY: {
+        from: 'home',
+        to: 'game_room'
+    }
 }
 
 export enum EnemyType {

@@ -4016,7 +4016,7 @@
         "__id__": 121
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 128
@@ -4355,6 +4355,9 @@
     },
     "enemyProgress": {
       "__id__": 96
+    },
+    "notifyBoss": {
+      "__id__": 120
     },
     "_id": "e6HnSbCgFLsqqTq76ZXVug"
   },

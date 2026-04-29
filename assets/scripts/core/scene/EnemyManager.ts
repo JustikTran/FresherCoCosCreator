@@ -6,6 +6,7 @@ import { AbsolutePosition } from '../../game_play/enemy/AbsolutePosition';
 import { Boss } from '../../game_play/enemy/Boss';
 import { EventManager } from '../global/EventManager';
 import { GameManager } from 'db://assets/scripts/core/global/GameManager';
+import { UIManager } from './UIManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemyManager')
@@ -93,7 +94,7 @@ export class EnemyManager extends Component {
                 enemy.getComponent(AbsolutePosition).init(randomPosition);
                 break;
             case EnemyType.BOSS:
-                randomPosition = new Vec3(0, this.node.getComponent(UITransform).height / 2);
+                randomPosition = new Vec3(500, this.node.getComponent(UITransform).height / 2);
                 enemy.getComponent(Boss).init(randomPosition);
                 break;
         }

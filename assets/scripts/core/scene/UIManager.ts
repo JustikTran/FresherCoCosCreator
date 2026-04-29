@@ -15,6 +15,8 @@ export class UIManager extends Component {
     towerHpLabel: Label = null;
     @property({ group: { name: 'References', displayOrder: 1 }, type: ProgressBar })
     enemyProgress: ProgressBar = null;
+    @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
+    notifyBoss: Node = null;
 
     private _towerHp: number = 0;
     private _currentHp: number = 0;
@@ -25,14 +27,20 @@ export class UIManager extends Component {
         this.towerHpProgress.progress = 1;
         this.towerHpLabel.string = `${this._currentHp}/${this._towerHp}`;
         this.enemyProgress.progress = 0;
+        this.notifyBoss.active = false;
 
         EventManager.instance.register(EventType.UPDATE_ENEMY_PROGRESS, this._updateEnemyProgress.bind(this), this);
         EventManager.instance.register(EventType.UPDATE_TOWER_HP, this._updateTowerHp.bind(this), this);
     }
 
     update(dt: number): void {
-        if(this._currentHp <= 0) {
+        if (this._currentHp <= 0) {
             GameManager.instance.showGameOverPopup();
+        }
+        if(this.enemyProgress.progress === 1){
+            console.log('show notifyBoss');
+            
+            this._showNotify();
         }
     }
 
@@ -53,5 +61,12 @@ export class UIManager extends Component {
                 easing: 'sineIn'
             })
             .start()
+    }
+
+    private _showNotify() {
+        tween(this.notifyBoss.active)
+            .to(8, {active: true})
+            .call(() => this.notifyBoss.active = false)
+            .start
     }
 }

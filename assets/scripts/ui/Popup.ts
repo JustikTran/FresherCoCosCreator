@@ -1,5 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { GameManager } from '../core/global/GameManager';
+import { SceneManager } from '../core/scene/SceneManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Popup')
@@ -13,9 +14,8 @@ export class Popup extends Component {
         GameManager.instance.showPausePopup();
     }
 
-    public switchStart():void{
-        GameManager.instance.allPopupHide();
-        GameManager.instance.switchScene();
+    public switchBack(event, param): void {
+        SceneManager.instance.onState('BACK');
     }
 }
 

@@ -9,10 +9,6 @@ export class EnemyBullet extends Bullet {
         super.start();
     }
 
-    update(deltaTime: number) {
-        super.update(deltaTime);
-    }
-
     onMove(): void {
         tween(this.node)
             .to(2, { position: new Vec3(this.node.position.x - Config.BULLET_STRAIGHT, this.node.position.y, this.node.position.z) })

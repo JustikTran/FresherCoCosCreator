@@ -1,6 +1,5 @@
 import { _decorator, Component, director, Label, Node, ProgressBar, tween } from 'cc';
-import { EventType } from 'db://assets/scripts/common/Config';
-import { EventManager } from 'db://assets/scripts/core/global/EventManager';
+import { StateManage } from '../utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('Loading')
@@ -14,9 +13,11 @@ export class Loading extends Component {
     private _sceneName: string = 'start';
     private _progress = { value: 0 };
 
-    start() {
-        EventManager.instance.register(EventType.CALL_SCENE, this.setCallScene.bind(this), this);
+    protected onLoad(): void {
+        this._sceneName = StateManage.instance.currentState.to;
+    }
 
+    start() {        
         this._loading();
     }
 
@@ -53,19 +54,12 @@ export class Loading extends Component {
                     easing: 'quadOut',
                     onUpdate: this._onRender.bind(this)
                 })
+                .delay(1)
                 .call(() => {
                     director.loadScene(this._sceneName);
                 })
                 .start();
         }
-    }
-
-    public setCallScene(sceneName: string) {
-        if (!sceneName) {
-            return;
-        }
-        this._sceneName = sceneName;
-        this._loading();
     }
 }
 
