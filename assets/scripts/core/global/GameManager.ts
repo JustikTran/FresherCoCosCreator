@@ -32,6 +32,7 @@ export class GameManager extends Component {
     }
 
     public switchScene(): void {
+        this.allPopupHide();
         director.loadScene('loading');
     }
 

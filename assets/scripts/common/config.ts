@@ -49,3 +49,8 @@ export const Config = {
     SPAWN_BOSS_TIME: 10
 }
 
+export enum SoundType{
+    BACKGROUND,
+    SFX
+}
+
