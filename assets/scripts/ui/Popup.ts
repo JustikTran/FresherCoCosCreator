@@ -14,8 +14,8 @@ export class Popup extends Component {
         GameManager.instance.showPausePopup();
     }
 
-    public switchHome(event, param): void {
-        SceneManager.instance.onState('HOME');
+    public switchTo(event, param: string): void {
+        SceneManager.instance.onState(param.toUpperCase());
     }
 }
 
