@@ -49,8 +49,8 @@ export const Config = {
     GAME_WIDTH: 800,
     GAME_HEIGHT: 600,
     BULLET_STRAIGHT: 1600,
-    SPAWN_ENEMY_TIME: 5,
-    SPAWN_BOSS_TIME: 10
+    SPAWN_ENEMY_TIME: 4,
+    SPAWN_BOSS_TIME: 8
 }
 
 export enum SoundType {

@@ -1,6 +1,6 @@
 import { _decorator, CCInteger, Component, Label, Node, ProgressBar, tween } from 'cc';
 import { EventManager } from '../global/EventManager';
-import { EventType, GameState } from '../../common/Config';
+import { Config, EventType, GameState } from '../../common/Config';
 import { Tower } from 'db://assets/scripts/game_play/tower/Tower';
 import { GameManager } from 'db://assets/scripts/core/global/GameManager';
 import { StateManage } from '../../utils/StateManage';
@@ -21,6 +21,7 @@ export class UIManager extends Component {
 
     private _towerHp: number = 0;
     private _currentHp: number = 0;
+    private _showNotifyTime: number = 0;
 
     start() {
         this._towerHp = this.tower.getComponent(Tower).getHp();;
@@ -29,9 +30,11 @@ export class UIManager extends Component {
         this.towerHpLabel.string = `${this._currentHp}/${this._towerHp}`;
         this.enemyProgress.progress = 0;
         this.notifyBoss.active = false;
+        this._showNotifyTime = 0;
 
         EventManager.instance.register(EventType.UPDATE_ENEMY_PROGRESS, this._updateEnemyProgress.bind(this), this);
         EventManager.instance.register(EventType.UPDATE_TOWER_HP, this._updateTowerHp.bind(this), this);
+        EventManager.instance.register(EventType.BOSS_ATTACK, this.showNotify.bind(this), this);
     }
 
     update(dt: number): void {
@@ -42,11 +45,14 @@ export class UIManager extends Component {
         if (this._currentHp <= 0) {
             GameManager.instance.showGameOverPopup();
         }
-        if (this.enemyProgress.progress === 1) {
-            console.log('show notifyBoss');
 
-            this._showNotify();
+        if (this._showNotifyTime >= Config.SPAWN_BOSS_TIME) {
+            console.log('hide notify');
+            
+            this.notifyBoss.active = false;
         }
+
+        this._showNotifyTime += dt;
     }
 
     private _updateEnemyProgress(percent: number): void {
@@ -68,10 +74,8 @@ export class UIManager extends Component {
             .start()
     }
 
-    private _showNotify() {
-        tween(this.notifyBoss.active)
-            .to(8, { active: true })
-            .call(() => this.notifyBoss.active = false)
-            .start
+    public showNotify() {
+        this.notifyBoss.active = true;
+        this._showNotifyTime = 0;
     }
 }
