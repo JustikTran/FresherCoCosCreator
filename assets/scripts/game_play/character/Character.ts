@@ -21,7 +21,7 @@ export class Character extends Component {
     private _velocity: Vec3 = new Vec3();
     private _isShooting: boolean = false;
     private _isSpawning: boolean = false;
-    private _lastShootTime: number = 0;
+    private _coolDown: number = 0;
 
     start() {
         this.animation.setMix('run', 'shoot', 0.5);
@@ -31,7 +31,7 @@ export class Character extends Component {
         EventManager.instance.register(EventType.STOP, this._onStop.bind(this), this);
         EventManager.instance.register(EventType.SHOOT, this._onShoot.bind(this), this);
         this._spawn();
-        this._lastShootTime = 0;
+        this._coolDown = 0;
         this._isSpawning = true;
     }
 
@@ -44,9 +44,9 @@ export class Character extends Component {
             return;
         }
 
-        if (this._isShooting) {
-            return;
-        }
+        // if (this._isShooting) {
+        //     return;
+        // }
 
         this._velocity = this._velocity.clone().lerp(this._direction, 0.2);
         const parent = this.node.parent;
@@ -75,6 +75,8 @@ export class Character extends Component {
                 this.animation.setAnimation(0, 'idle', true);
             }
         }
+
+        this._coolDown -= deltaTime;
     }
 
     onDestroy(): void {
@@ -109,11 +111,10 @@ export class Character extends Component {
             return;
         }
 
-        if (!this._canShoot()) {
+        if (this._coolDown > 0) {
             return;
         }
-        const now = performance.now() / 1000;
-        this._lastShootTime = now;
+
 
         this._isShooting = true;
         this.animation.setAnimation(0, "idle", true);
@@ -121,13 +122,10 @@ export class Character extends Component {
         this.animation.setCompleteListener((entry) => {
             if (entry.animation.name === 'shoot') {
                 this._isShooting = false;
+                const now = performance.now() / 1000;
+                this._coolDown = this.attackRate;
             }
         });
-    }
-
-    private _canShoot(): boolean {
-        const now = performance.now() / 1000;
-        return now - this._lastShootTime >= this.attackRate;
     }
 
     public getShootPosition(): Vec3 {
