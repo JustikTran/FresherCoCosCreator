@@ -15,7 +15,7 @@ export class Popup extends Component {
     }
 
     public switchHome(event, param): void {
-        SceneManager.instance.onState('BACK');
+        SceneManager.instance.onState('HOME');
     }
 }
 
