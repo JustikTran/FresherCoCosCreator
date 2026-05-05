@@ -44,8 +44,6 @@ export class GameManager extends Component {
         this.gameOverPopup.active = false;
         this.gameClearPopup.active = false;
         if (StateManage.instance.compareState(GameState.PAUSE)) {
-            console.log('shift stage');
-            
             StateManage.instance.shiftState();
         }
 
@@ -65,18 +63,14 @@ export class GameManager extends Component {
 
     public showGameOverPopup() {
         this.allPopupHide();
-        StateManage.instance.setState(GameState.PAUSE);
+        StateManage.instance.setState(GameState.END);
         this.gameOverPopup.active = true;
     }
 
     public showGameClearPopup() {
         this.allPopupHide();
-        StateManage.instance.setState(GameState.PAUSE);
+        StateManage.instance.setState(GameState.END);
         this.gameClearPopup.active = true;
-    }
-
-    public onStart(): void {
-        director.loadScene('game_room');
     }
 }
 

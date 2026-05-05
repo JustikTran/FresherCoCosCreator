@@ -3,6 +3,7 @@ import { BaseEnemy } from './BaseEnemy';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 import { Config, EventType, GameState } from 'db://assets/scripts/common/Config';
 import { StateManage } from '../../utils/StateManage';
+import { GameManager } from '../../core/global/GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Boss')

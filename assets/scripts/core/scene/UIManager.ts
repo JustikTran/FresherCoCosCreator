@@ -22,6 +22,7 @@ export class UIManager extends Component {
     private _towerHp: number = 0;
     private _towerLabel: Label;
     private _currentHp: number = 0;
+    private _currentEnemyProgress: number = 0;
     private _showNotifyTime: number = 0;
 
     start() {
@@ -41,7 +42,8 @@ export class UIManager extends Component {
     }
 
     update(dt: number): void {
-        if (StateManage.instance.compareState(GameState.PAUSE)) {
+        if (StateManage.instance.compareState(GameState.PAUSE)
+            || StateManage.instance.compareState(GameState.END)) {
             return;
         }
 
@@ -50,8 +52,6 @@ export class UIManager extends Component {
         }
 
         if (this._showNotifyTime >= Config.SPAWN_BOSS_TIME) {
-            console.log('hide notify');
-
             this.notifyBoss.active = false;
         }
 
@@ -75,7 +75,7 @@ export class UIManager extends Component {
     private _updateEnemyProgress(percent: number): void {
         // this.enemyProgress.progress = percent;
         tween(this.enemyProgress)
-            .to(0.3, { progress: percent }, {
+            .to(0.5, { progress: percent }, {
                 easing: 'sineIn'
             })
             .start()

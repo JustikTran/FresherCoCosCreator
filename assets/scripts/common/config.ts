@@ -41,6 +41,10 @@ export const GameState = {
     REPLAY: {
         from: 'game_room',
         to: 'game_room'
+    },
+    END: {
+        from: 'game_room',
+        to: ''
     }
 }
 

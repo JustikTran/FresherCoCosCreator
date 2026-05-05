@@ -40,6 +40,7 @@ export class EnemyManager extends Component {
 
     update(deltaTime: number) {
         if (this._currentTotal === this.limit && this.node.children.length === 0) {
+            StateManage.instance.setState(GameState.END);
             GameManager.instance.showGameClearPopup();
         }
 
@@ -81,7 +82,7 @@ export class EnemyManager extends Component {
     private _onReplay() {
         this._timeSpawn = 0;
         this._currentTotal = 0;
-        this._isLastBoss = false;``
+        this._isLastBoss = false; ``
         this.node.children.forEach(child => {
             child.destroy();
         });

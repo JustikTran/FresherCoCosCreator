@@ -23,7 +23,7 @@ export class BaseEnemy extends Component {
     @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
     damageLabel: Node = null;
 
-    private _currentHp: number = 0;
+    currentHp: number = 0;
     private _parentWidth: number = null;
     private _labelPosition: Vec3 = Vec3.ZERO;
     private _labelString: Label = null;
@@ -37,7 +37,7 @@ export class BaseEnemy extends Component {
     }
 
     onLoad(): void {
-        this._currentHp = this.hp;
+        this.currentHp = this.hp;
         this._labelPosition = this.damageLabel.position;
         this._labelString = this.damageLabel.getComponent(Label);
         this._labelOpacity = this.damageLabel.getComponent(UIOpacity);
@@ -72,7 +72,7 @@ export class BaseEnemy extends Component {
         // } else {
         //     this._onMove(deltaTime);
         // }
-        if (this._currentHp <= 0) {
+        if (this.currentHp <= 0) {
             this._collider.off(Contact2DType.BEGIN_CONTACT, this._onBeginContact.bind(this), this);
             this.getComponent(RigidBody2D).enabled = false;
 
@@ -99,9 +99,9 @@ export class BaseEnemy extends Component {
     }
 
     private _onHurt(damage: number): void {
-        this._currentHp -= damage;
+        this.currentHp -= damage;
         this._labelString.string = `-${damage}`;
-        this.hpProgress.progress = this._currentHp / this.hp;
+        this.hpProgress.progress = this.currentHp / this.hp;
         this._labelOpacity.opacity = 255;
         tween(this._labelOpacity)
             .to(0.6, { opacity: 0 })
