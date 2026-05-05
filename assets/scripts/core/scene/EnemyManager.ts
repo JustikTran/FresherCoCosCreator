@@ -37,6 +37,10 @@ export class EnemyManager extends Component {
     }
 
     update(deltaTime: number) {
+        if (this._currentTotal === this.limit && this.node.children.length === 0) {
+            GameManager.instance.showGameClearPopup();
+        }
+
         if (StateManage.instance.compareState(GameState.PAUSE)) {
             return;
         }
