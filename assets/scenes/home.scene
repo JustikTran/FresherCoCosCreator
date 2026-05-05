@@ -892,11 +892,11 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 3
+      "__id__": 20
     },
     "component": "",
-    "_componentId": "19a37wfu0hLBK+nVW8466/A",
-    "handler": "onClick",
+    "_componentId": "319d2USBo1I9IQR0Uyo+eSs",
+    "handler": "showSetting",
     "customEventData": ""
   },
   {
