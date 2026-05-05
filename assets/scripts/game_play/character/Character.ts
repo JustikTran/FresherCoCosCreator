@@ -32,7 +32,6 @@ export class Character extends Component {
         EventManager.instance.register(EventType.SHOOT, this._onShoot.bind(this), this);
         this._spawn();
         this._coolDown = 0;
-        this._isSpawning = true;
     }
 
     update(deltaTime: number) {

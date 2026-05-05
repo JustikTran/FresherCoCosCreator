@@ -13,7 +13,8 @@ export enum EventType {
     UPDATE_TOWER_HP = 'update_tower_hp',
     CALL_SCENE = 'callScene',
     ENEMY_ATTACK = 'enemy_attack',
-    BOSS_ATTACK = 'boss_attack'
+    BOSS_ATTACK = 'boss_attack',
+    REPLAY = 'replay'
 }
 
 export const GameState = {
@@ -36,6 +37,10 @@ export const GameState = {
     PAUSE: {
         from: '',
         to: ''
+    },
+    REPLAY: {
+        from: 'game_room',
+        to: 'game_room'
     }
 }
 

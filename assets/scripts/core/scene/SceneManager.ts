@@ -49,7 +49,13 @@ export class SceneManager extends Component {
                 StateManage.instance.setState(GameState.BACK);
                 GameManager.instance.switchScene();
                 break;
-
+            case "REPLAY":
+                if (StateManage.instance.compareState(GameState.REPLAY)) {
+                    break;
+                }
+                StateManage.instance.setState(GameState.REPLAY);
+                GameManager.instance.switchScene();
+                break;
             default:
                 break;
         }
