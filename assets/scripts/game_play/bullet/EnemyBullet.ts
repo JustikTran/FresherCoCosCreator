@@ -5,6 +5,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('EnemyBullet')
 export class EnemyBullet extends Bullet {
+
     start() {
         super.start();
     }

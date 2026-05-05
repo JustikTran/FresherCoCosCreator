@@ -30,7 +30,7 @@ export class AbsolutePosition extends BaseEnemy {
     }
 
     onAttack(): void {
-        EventManager.instance.emit(EventType.ENEMY_ATTACK, this.attackPoint.worldPosition);
+        EventManager.instance.emit(EventType.ENEMY_ATTACK, { damage: this.damage, worldPosition: this.attackPoint.worldPosition });
     }
 }
 
