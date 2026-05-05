@@ -13,7 +13,7 @@ export class Loading extends Component {
     private _sceneName: string = 'start';
     private _progress = { value: 0 };
 
-    protected onLoad(): void {
+    protected onLoad(): void {        
         this._sceneName = StateManage.instance.currentState.to;
     }
 

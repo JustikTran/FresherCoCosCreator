@@ -24,11 +24,15 @@ export class Character extends Component {
     private _lastShootTime: number = 0;
 
     start() {
+        this.animation.setMix('run', 'shoot', 0.5);
+        this.animation.setMix('idle', 'shoot', 0.5);
+
         EventManager.instance.register(EventType.MOVE, this._onMove.bind(this), this);
         EventManager.instance.register(EventType.STOP, this._onStop.bind(this), this);
         EventManager.instance.register(EventType.SHOOT, this._onShoot.bind(this), this);
         this._spawn();
         this._lastShootTime = 0;
+        this._isSpawning = true;
     }
 
     update(deltaTime: number) {
@@ -104,6 +108,7 @@ export class Character extends Component {
         if (this._isShooting || this._isSpawning) {
             return;
         }
+
         if (!this._canShoot()) {
             return;
         }
@@ -111,12 +116,13 @@ export class Character extends Component {
         this._lastShootTime = now;
 
         this._isShooting = true;
-        this.animation.setAnimation(0, 'shoot', false);
-        // this.animation.setAnimation(1, 'idle', false);
-        this.animation.setCompleteListener(() => {
-            this._isShooting = false;
+        this.animation.setAnimation(0, "idle", true);
+        this.animation.setAnimation(1, 'shoot', false);
+        this.animation.setCompleteListener((entry) => {
+            if (entry.animation.name === 'shoot') {
+                this._isShooting = false;
+            }
         });
-        this.animation.setAnimation(0, this._velocity.length() > 0 ? "run" : "idle", true);
     }
 
     private _canShoot(): boolean {

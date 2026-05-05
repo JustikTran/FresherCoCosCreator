@@ -19,7 +19,7 @@ export class SceneManager extends Component {
 
     public onState(param) {
         const state: string = (param as string).toUpperCase();
-        
+
         switch (state) {
             case "START":
                 if (StateManage.instance.compareState(GameState.START)) {

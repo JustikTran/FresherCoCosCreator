@@ -44,6 +44,8 @@ export class GameManager extends Component {
         this.gameOverPopup.active = false;
         this.gameClearPopup.active = false;
         if (StateManage.instance.compareState(GameState.PAUSE)) {
+            console.log('shift stage');
+            
             StateManage.instance.shiftState();
         }
 

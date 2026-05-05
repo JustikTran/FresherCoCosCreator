@@ -1,8 +1,9 @@
 import { _decorator, CCInteger, Component, Label, Node, ProgressBar, tween } from 'cc';
 import { EventManager } from '../global/EventManager';
-import { EventType } from '../../common/Config';
+import { EventType, GameState } from '../../common/Config';
 import { Tower } from 'db://assets/scripts/game_play/tower/Tower';
 import { GameManager } from 'db://assets/scripts/core/global/GameManager';
+import { StateManage } from '../../utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIManager')
@@ -34,12 +35,16 @@ export class UIManager extends Component {
     }
 
     update(dt: number): void {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            return;
+        }
+
         if (this._currentHp <= 0) {
             GameManager.instance.showGameOverPopup();
         }
-        if(this.enemyProgress.progress === 1){
+        if (this.enemyProgress.progress === 1) {
             console.log('show notifyBoss');
-            
+
             this._showNotify();
         }
     }
@@ -65,7 +70,7 @@ export class UIManager extends Component {
 
     private _showNotify() {
         tween(this.notifyBoss.active)
-            .to(8, {active: true})
+            .to(8, { active: true })
             .call(() => this.notifyBoss.active = false)
             .start
     }
