@@ -1,12 +1,12 @@
 import { _decorator, CCInteger, Component, instantiate, Node, Prefab, UITransform, Vec3 } from 'cc';
 import { RandomIndex, RandomPosition } from 'db://assets/scripts/utils/Random';
-import { Config, EnemyType, EventType } from '../../common/Config';
-import { RelativePosition } from '../../game_play/enemy/RelativePosition';
-import { AbsolutePosition } from '../../game_play/enemy/AbsolutePosition';
-import { Boss } from '../../game_play/enemy/Boss';
-import { EventManager } from '../global/EventManager';
+import { Config, EnemyType, EventType, GameState } from 'db://assets/scripts/common/Config';
+import { RelativePosition } from 'db://assets/scripts/game_play/enemy/RelativePosition';
+import { AbsolutePosition } from 'db://assets/scripts/game_play/enemy/AbsolutePosition';
+import { Boss } from 'db://assets/scripts/game_play/enemy/Boss';
+import { EventManager } from 'db://assets/scripts/core/global/EventManager';
 import { GameManager } from 'db://assets/scripts/core/global/GameManager';
-import { UIManager } from './UIManager';
+import { StateManage } from 'db://assets/scripts/utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemyManager')
@@ -37,6 +37,10 @@ export class EnemyManager extends Component {
     }
 
     update(deltaTime: number) {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            return;
+        }
+
         if (this._isLastBoss) {
             return;
         }

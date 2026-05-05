@@ -1,7 +1,8 @@
 import { _decorator, CCInteger, Component, Node, Prefab } from 'cc';
 import { BaseEnemy } from './BaseEnemy';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
-import { EventType } from 'db://assets/scripts/common/Config';
+import { EventType, GameState } from 'db://assets/scripts/common/Config';
+import { StateManage } from '../../utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('AbsolutePosition')
@@ -18,6 +19,9 @@ export class AbsolutePosition extends BaseEnemy {
 
     update(deltaTime: number): void {
         super.update(deltaTime);
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            return;
+        }
         if (this._attackTimer >= this.attackRate) {
             this.onAttack();
             this._attackTimer = 0;
@@ -26,7 +30,7 @@ export class AbsolutePosition extends BaseEnemy {
         }
     }
 
-    onMove(deltaTime: number): void {
+    onMove(): void {
     }
 
     onAttack(): void {

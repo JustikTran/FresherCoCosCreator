@@ -1,4 +1,6 @@
 import { _decorator, Component, director, game, Node } from 'cc';
+import { StateManage } from 'db://assets/scripts/utils/StateManage';
+import { GameState } from 'db://assets/scripts/common/Config';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -41,30 +43,33 @@ export class GameManager extends Component {
         this.pausePopup.active = false;
         this.gameOverPopup.active = false;
         this.gameClearPopup.active = false;
-        director.resume();
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            StateManage.instance.shiftState();
+        }
+
     }
 
     public showSettingPopup() {
         this.allPopupHide();
-        director.pause();
+        StateManage.instance.setState(GameState.PAUSE);
         this.settingPopup.active = true;
     }
 
     public showPausePopup() {
         this.allPopupHide();
-        director.pause();
+        StateManage.instance.setState(GameState.PAUSE);
         this.pausePopup.active = true;
     }
 
     public showGameOverPopup() {
         this.allPopupHide();
-        director.pause();
+        StateManage.instance.setState(GameState.PAUSE);
         this.gameOverPopup.active = true;
     }
 
     public showGameClearPopup() {
         this.allPopupHide();
-        director.pause();
+        StateManage.instance.setState(GameState.PAUSE);
         this.gameClearPopup.active = true;
     }
 

@@ -32,6 +32,10 @@ export const GameState = {
     PlAY: {
         from: 'home',
         to: 'game_room'
+    },
+    PAUSE: {
+        from: '',
+        to: ''
     }
 }
 
@@ -49,7 +53,7 @@ export const Config = {
     SPAWN_BOSS_TIME: 10
 }
 
-export enum SoundType{
+export enum SoundType {
     BACKGROUND,
     SFX
 }

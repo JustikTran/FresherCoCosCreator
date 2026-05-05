@@ -1,5 +1,7 @@
-import { _decorator, CCInteger, CircleCollider2D, Collider2D, Component, Contact2DType, Label, log, Node, ProgressBar, RigidBody2D, Size, tween, UIOpacity, UITransform, Vec3 } from 'cc';
+import { _decorator, CCInteger, CircleCollider2D, Collider2D, Component, Contact2DType, Label, log, Node, ProgressBar, RigidBody2D, Size, Tween, tween, TweenSystem, UIOpacity, UITransform, Vec3 } from 'cc';
 import { Bullet } from 'db://assets/scripts/game_play/bullet/Bullet';
+import { StateManage } from 'db://assets/scripts/utils/StateManage';
+import { GameState } from 'db://assets/scripts/common/Config';
 const { ccclass, property } = _decorator;
 
 @ccclass('BaseEnemy')
@@ -46,8 +48,9 @@ export class BaseEnemy extends Component {
         this.hpProgress.progress = 1;
         this._parentWidth = this.node.parent.getComponent(UITransform).contentSize.width;
         this.isStopMove = false;
-        this.onMove(0);
-
+        tween(this.node)
+            .call(() => this.onMove())
+            .start();
         this._collider = this.getComponent(CircleCollider2D);
         if (this._collider) {
             this._collider.on(Contact2DType.BEGIN_CONTACT, this._onBeginContact.bind(this), this);
@@ -55,6 +58,13 @@ export class BaseEnemy extends Component {
     }
 
     update(deltaTime: number): void {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            TweenSystem.instance.ActionManager.pauseAllRunningActions();
+            return;
+        } else {
+            TweenSystem.instance.ActionManager.resumeTargets([this.node]);
+        }
+
         // if (this._checkTarget()) {
         //     console.log(this.target.position.x);
 
@@ -78,7 +88,7 @@ export class BaseEnemy extends Component {
         this.node.parent.getComponent(UITransform).convertToNodeSpaceAR(targetPosition, localPosition);
     }
 
-    onMove(deltaTime: number): void {
+    onMove(): void {
         tween(this.node)
             .to(15, { position: new Vec3(-800, this.node.position.y, this.node.position.z) })
             .call(() => this.isStopMove = true)

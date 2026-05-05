@@ -1,6 +1,7 @@
-import { _decorator, Component, Node, sp, Vec3, UITransform, CCInteger, CCFloat } from 'cc';
-import { EventType } from 'db://assets/scripts/common/Config';
+import { _decorator, Component, Node, sp, Vec3, UITransform, CCInteger, CCFloat, Tween } from 'cc';
+import { EventType, GameState } from 'db://assets/scripts/common/Config';
 import { EventManager } from 'db://assets/scripts/core/global/EventManager';
+import { StateManage } from 'db://assets/scripts/utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('Character')
@@ -31,6 +32,10 @@ export class Character extends Component {
     }
 
     update(deltaTime: number) {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            return;
+        }
+
         if (this._isSpawning) {
             return;
         }
@@ -92,6 +97,10 @@ export class Character extends Component {
     }
 
     private _onShoot() {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            return;
+        }
+
         if (this._isShooting || this._isSpawning) {
             return;
         }

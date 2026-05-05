@@ -1,5 +1,6 @@
-import { _decorator, CCInteger, Component, Node, tween, Vec3 } from 'cc';
-import { Config } from 'db://assets/scripts/common/Config';
+import { _decorator, CCInteger, Component, Node, Tween, tween, TweenSystem, Vec3 } from 'cc';
+import { Config, GameState } from 'db://assets/scripts/common/Config';
+import { StateManage } from 'db://assets/scripts/utils/StateManage';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bullet')
@@ -18,6 +19,15 @@ export class Bullet extends Component {
 
     start(): void {
         this.onMove();
+    }
+
+    update(dt: number): void {
+        if (StateManage.instance.compareState(GameState.PAUSE)) {
+            TweenSystem.instance.ActionManager.pauseAllRunningActions();
+            return;
+        } else {
+            TweenSystem.instance.ActionManager.resumeTargets([this.node]);
+        }
     }
 
     onDestroy(): void {

@@ -10,6 +10,7 @@ export class StateManage {
     private static _instance: StateManage;
 
     private _currentState: IState;
+    private _preState: IState | null = null;
 
     private constructor() {
         StateManage._instance = this;
@@ -24,7 +25,12 @@ export class StateManage {
     }
 
     public setState(state: IState) {
+        this._preState = this._currentState;
         this._currentState = state;
+    }
+
+    public shiftState(){
+        this._currentState = this._preState;
     }
 
     public get currentState() {
