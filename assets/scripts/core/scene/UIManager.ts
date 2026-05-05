@@ -11,15 +11,16 @@ export class UIManager extends Component {
     @property({ group: { name: 'References', displayOrder: 0 }, type: Node })
     tower: Node;
     @property({ group: { name: 'References', displayOrder: 1 }, type: ProgressBar })
-    towerHpProgress: ProgressBar = null;
+    towerHpProgress: ProgressBar;
     @property({ group: { name: 'References', displayOrder: 1 }, type: Label })
-    towerHpLabel: Label = null;
+    towerHpLabel: Label;
     @property({ group: { name: 'References', displayOrder: 1 }, type: ProgressBar })
-    enemyProgress: ProgressBar = null;
+    enemyProgress: ProgressBar;
     @property({ group: { name: 'References', displayOrder: 1 }, type: Node })
-    notifyBoss: Node = null;
+    notifyBoss: Node;
 
     private _towerHp: number = 0;
+    private _towerLabel: Label;
     private _currentHp: number = 0;
     private _showNotifyTime: number = 0;
 
@@ -31,10 +32,12 @@ export class UIManager extends Component {
         this.enemyProgress.progress = 0;
         this.notifyBoss.active = false;
         this._showNotifyTime = 0;
+        this._towerLabel = this.towerHpLabel.getComponent(Label);
 
         EventManager.instance.register(EventType.UPDATE_ENEMY_PROGRESS, this._updateEnemyProgress.bind(this), this);
         EventManager.instance.register(EventType.UPDATE_TOWER_HP, this._updateTowerHp.bind(this), this);
         EventManager.instance.register(EventType.BOSS_ATTACK, this.showNotify.bind(this), this);
+        EventManager.instance.register(EventType.REPLAY, this._onReplay.bind(this), this);
     }
 
     update(dt: number): void {
@@ -48,11 +51,25 @@ export class UIManager extends Component {
 
         if (this._showNotifyTime >= Config.SPAWN_BOSS_TIME) {
             console.log('hide notify');
-            
+
             this.notifyBoss.active = false;
         }
 
         this._showNotifyTime += dt;
+        this.towerHpProgress.progress = this._currentHp / this._towerHp;
+    }
+
+    onDestroy(): void {
+        EventManager.instance.unregisterAll(this);
+    }
+
+    private _onReplay() {
+        this._currentHp = this._towerHp;
+        this.towerHpProgress.progress = 1;
+        this.towerHpLabel.string = `${this._currentHp}/${this._towerHp}`;
+        this.enemyProgress.progress = 0;
+        this.notifyBoss.active = false;
+        this._showNotifyTime = 0;
     }
 
     private _updateEnemyProgress(percent: number): void {
@@ -66,12 +83,12 @@ export class UIManager extends Component {
 
     private _updateTowerHp(minorHp: number): void {
         this._currentHp -= minorHp;
-        this.towerHpLabel.string = `${Math.max(0, this._currentHp)}/${this._towerHp}`;
-        tween(this.towerHpProgress)
-            .to(0.3, { progress: this._currentHp / this._towerHp }, {
-                easing: 'sineIn'
-            })
-            .start()
+        this._towerLabel.string = `${Math.max(0, this._currentHp)}/${this._towerHp}`;
+        // tween(this.towerHpProgress)
+        //     .to(0.3, { progress: this._currentHp / this._towerHp }, {
+        //         easing: 'sineIn'
+        //     })
+        //     .start()
     }
 
     public showNotify() {

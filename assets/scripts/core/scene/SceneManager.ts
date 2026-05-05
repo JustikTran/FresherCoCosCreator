@@ -1,7 +1,8 @@
 import { _decorator, Component, Node, director } from 'cc';
 import { StateManage } from '../../utils/StateManage';
-import { GameState } from '../../common/Config';
+import { EventType, GameState } from '../../common/Config';
 import { GameManager } from '../global/GameManager';
+import { EventManager } from '../global/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('SceneManager')
@@ -54,7 +55,9 @@ export class SceneManager extends Component {
                     break;
                 }
                 StateManage.instance.setState(GameState.REPLAY);
-                GameManager.instance.switchScene();
+                EventManager.instance.emit(EventType.REPLAY);
+                GameManager.instance.allPopupHide();
+                // GameManager.instance.switchScene();
                 break;
             default:
                 break;

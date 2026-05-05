@@ -23,8 +23,8 @@ export class EventManager {
 
     public register(event: string, callback: any, owner: any) {
         this._eventTarget.on(event, callback);
-        if (!this._listeners.has(owner)) {
-            this._listeners.set(owner, []);
+        if (!this._listeners.has(owner)) {            
+            this._listeners.set(owner, []);            
         }
         this._listeners.get(owner)?.push({ eventName: event, method: callback });
     }

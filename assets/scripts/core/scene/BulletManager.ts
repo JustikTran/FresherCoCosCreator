@@ -32,6 +32,22 @@ export class BulletManager extends Component {
             this._onEnemyAttack.bind(this),
             this,
         );
+
+        EventManager.instance.register(
+            EventType.REPLAY,
+            this._onReplay.bind(this),
+            this
+        )
+    }
+
+    protected onDestroy(): void {
+        EventManager.instance.unregisterAll(this);
+    }
+
+    private _onReplay() {
+        this.node.children.forEach(child => {
+            child.destroy();
+        });
     }
 
     private _onShoot(worldPosition: Vec3) {

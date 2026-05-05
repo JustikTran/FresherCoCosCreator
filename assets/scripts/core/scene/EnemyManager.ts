@@ -34,6 +34,8 @@ export class EnemyManager extends Component {
         this._timeSpawn = 0;
         this._currentTotal = 0;
         this._isLastBoss = false;
+
+        EventManager.instance.register(EventType.REPLAY, this._onReplay.bind(this), this);
     }
 
     update(deltaTime: number) {
@@ -70,6 +72,19 @@ export class EnemyManager extends Component {
         } else {
             this._timeSpawn += deltaTime;
         }
+    }
+
+    protected onDestroy(): void {
+        EventManager.instance.unregisterAll(this);
+    }
+
+    private _onReplay() {
+        this._timeSpawn = 0;
+        this._currentTotal = 0;
+        this._isLastBoss = false;``
+        this.node.children.forEach(child => {
+            child.destroy();
+        });
     }
 
     private _randomSpawn() {
