@@ -42,12 +42,12 @@ export function tweenMoney(label: Label, duration: number, endValue: number, opt
 	const _target = { value: currentVal };
 	let tweenMoney = tween(_target)
 		.to(duration, { value: endValue }, {
-            progress: (start, end, current, ratio) => {
-                label.string = formatter(Number(current));
-                onUpdateCallback && onUpdateCallback(_target, ratio);
-                return start + (end - start) * ratio;
-            },
-        })
+			progress: (start, end, current, ratio) => {
+				label.string = formatter(Number(current));
+				onUpdateCallback && onUpdateCallback(_target, ratio);
+				return start + (end - start) * ratio;
+			},
+		})
 		.call(() => {
 			label.string = formatter(endValue);
 			onCompleteCallback && onCompleteCallback();
@@ -64,4 +64,23 @@ export function parseValueFromString(valueStr: string): number {
 	valueStr = valueStr.replace(/[^\d.]/g, "");
 
 	return Number(valueStr);
+}
+
+export function parseMapBet(data: IJoinGameData) {
+	let arrayBets: IBet[] = [];
+	const jackpots: number[] = [];
+	for (const key in data.jackpot) {
+		jackpots.push(data.jackpot[key])
+	}
+	const bets = data.mainBet.split(',');
+	for (const bet in bets) {
+		let index = 0;
+		const [id, value] = bets[bet].split(";");
+		
+		arrayBets.push({ id: id, value: +value, jackpot: jackpots[index] })
+
+		index++;
+	}
+
+	return arrayBets;
 }
