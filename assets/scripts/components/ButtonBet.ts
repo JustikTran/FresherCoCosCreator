@@ -11,17 +11,11 @@ export class ButtonBet extends Component {
     private _max: number;
 
     start(): void {
-        this.node.on("JOIN_GAME_SUCCESS", () => {
-            const bets = this.betManager.bets;
-            this._max = bets.length - 1;
-        }, this);
+        this.node.on("JOIN_GAME_SUCCESS", this._getRange, this);
     }
 
     onDestroy(): void {
-        this.node.off("JOIN_GAME_SUCCESS", () => {
-            const bets = this.betManager.bets;
-            this._max = bets.length - 1;
-        }, this);
+        this.node.off("JOIN_GAME_SUCCESS", this._getRange, this);
     }
 
     onClickPlus() {
@@ -42,12 +36,17 @@ export class ButtonBet extends Component {
         const bets = this.betManager.bets;
         this._max = bets.length - 1;
         --this._current;
-        
+
         if (this._current <= 0) {
             this._current = 0;
         }
 
         this.betManager.setCurrentIndex(this._current);
+    }
+
+    private _getRange() {
+        const bets = this.betManager.bets;
+        this._max = bets.length - 1;
     }
 }
 

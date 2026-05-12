@@ -81,3 +81,21 @@ export function parseMapBet(data: IJoinGameData) {
 
 	return arrayBets;
 }
+
+export function castMapReel(matrixData: number[]) {
+	let result = [];
+
+	for (let index = 0; index < matrixData.length; index += 3) {
+		let temp = matrixData.slice(index, index + 3);
+		temp.unshift(2);
+		temp.push(2);
+		result.push(temp);
+	}
+
+	return result;
+}
+
+
+export function random(min: number, max: number) {
+	return Math.random() * (max - min) + min;
+}
