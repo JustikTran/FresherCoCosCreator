@@ -52,9 +52,9 @@ export class SpinReel extends Component {
 
         tween(this.node)
             .by(
-                0.15,
+                0.1,
                 { position: new Vec3(0, -this.symbolHeight, 0) },
-                { easing: "linear" }
+                { easing: "sineOut" }
             )
             .call(() => {
                 if (this._timeSpin - 5 <= 0) {

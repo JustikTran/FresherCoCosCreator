@@ -9,15 +9,15 @@ export class BetManager extends Component {
     private _bets: IBet[];
     private _wallet: number;
 
-    onLoad(): void {
-        this._currentIndex = 0;
-    }
-
     onEnable(): void {
         this.node.on("JOIN_GAME_SUCCESS", this._setData, this);
     }
 
-    onDestroy(): void {
+    start(): void {
+        this._currentIndex = 0;
+    }
+
+    onDisable(): void {
         this.node.off("JOIN_GAME_SUCCESS", this._setData, this);
     }
 
@@ -25,7 +25,7 @@ export class BetManager extends Component {
         return this._currentIndex;
     }
 
-    public setCurrentIndex(newIndex:number):void{
+    public setCurrentIndex(newIndex: number): void {
         this._currentIndex = newIndex;
         this.node.emit("RENDER_NEW_BET");
     }
@@ -35,7 +35,7 @@ export class BetManager extends Component {
     }
 
     private _setData(data: IJoinGameData): void {
-        this._bets = parseMapBet(data);        
+        this._bets = parseMapBet(data);
         this._currentIndex = 0;
         this._wallet = data.wallet;
         this.node.emit("RENDER", this._wallet);

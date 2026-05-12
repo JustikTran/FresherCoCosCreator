@@ -10,7 +10,7 @@ export class ButtonBet extends Component {
     private _current: number;
     private _max: number;
 
-    start(): void {
+    onEnable(): void {
         this.node.on("JOIN_GAME_SUCCESS", this._getRange, this);
     }
 

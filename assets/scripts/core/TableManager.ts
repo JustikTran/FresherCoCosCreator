@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Prefab, Sprite, SpriteFrame } from 'cc';
 import { castMapReel } from '../utils/utils';
 import { GameEventManager } from './GameEventManager';
-import { SpinReel } from '../control/spinReel';
+import { SpinReel } from '../control/SpinReel';
 const { ccclass, property } = _decorator;
 
 @ccclass('TableManager')
@@ -16,8 +16,12 @@ export class TableManager extends Component {
     @property(SpriteFrame)
     spriteFrames: SpriteFrame[] = [];
 
-    onLoad(): void {
+    onEnable(): void {
         this.gameEvent.on("SPIN_REQUEST", this._showResult, this);
+    }
+
+    onDisable(): void {
+        this.gameEvent.off("SPIN_REQUEST", this._showResult, this);
     }
 
     private _showResult(response: ISpinResponse) {

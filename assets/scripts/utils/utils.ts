@@ -82,13 +82,32 @@ export function parseMapBet(data: IJoinGameData) {
 	return arrayBets;
 }
 
-export function castMapReel(matrixData: number[]) {
+export function castMapReel(matrixData: any[], reelSize: number = 3) {
 	let result = [];
 
-	for (let index = 0; index < matrixData.length; index += 3) {
-		let temp = matrixData.slice(index, index + 3);
-		temp.unshift(2);
-		temp.push(2);
+	for (let index = 0; index < matrixData.length; index += reelSize) {
+		let temp = matrixData.slice(index, index + reelSize);
+		for (const key in temp) {
+			switch (temp[key]) {
+				case "jp":
+				case "JP":
+					temp[key] = 0;
+					break;
+
+				case "a":
+				case "A":
+					temp[key] = 1;
+					break;
+
+				case "k":
+				case "K":
+					temp[key] = 10;
+					break;
+			}
+		}
+
+		temp.unshift(0);
+		temp.push(0);
 		result.push(temp);
 	}
 
@@ -97,5 +116,5 @@ export function castMapReel(matrixData: number[]) {
 
 
 export function random(min: number, max: number) {
-	return Math.random() * (max - min) + min;
+	return Math.floor(Math.random() * (max - min) + min);
 }

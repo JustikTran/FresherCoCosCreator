@@ -15,7 +15,7 @@ declare global {
 
     interface ISpinResponse {
         id: string;
-        matrix: number[],
+        matrix: any[],
         winAmount: number
     }
 } 
