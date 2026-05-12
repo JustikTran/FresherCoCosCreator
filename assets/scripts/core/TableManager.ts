@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Prefab, Sprite, SpriteFrame } from 'cc';
 import { castMapReel } from '../utils/utils';
 import { GameEventManager } from './GameEventManager';
-import { spinReel } from '../control/spinReel';
+import { SpinReel } from '../control/spinReel';
 const { ccclass, property } = _decorator;
 
 @ccclass('TableManager')
@@ -21,23 +21,21 @@ export class TableManager extends Component {
     }
 
     private _showResult(response: ISpinResponse) {
+        let completed = 0;
         let matrixResult = castMapReel(response.matrix);
-
         for (let index = 0; index < 5; index++) {
-            let reel = this.node.children[index];
-            let reelRes = matrixResult[index];
-
-            for (let pos = 0; pos < 5; pos++) {
-                let child = reel.children[pos];
-
-                if (reelRes[pos]) {
-                    child.getComponent(Sprite).spriteFrame = this.spriteFrames[reelRes[pos]];
-                }
-            }
+            const reel = this.node.children[index].getComponent(SpinReel);
+            reel.spin(15 + index * 5,
+                this.spriteFrames,
+                matrixResult[index],
+                () => {
+                    completed++;
+                    if (completed === 5) {
+                        this.gameEvent.emit("UPDATE_AMOUNT", response);
+                        this.gameEvent.emit("CAN_SPIN");
+                    }
+                });
         }
-
-        this.gameEvent.emit("UPDATE_AMOUNT", response);
-        this.gameEvent.emit("CAN_SPIN");
     }
 
 }
