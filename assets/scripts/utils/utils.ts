@@ -74,12 +74,9 @@ export function parseMapBet(data: IJoinGameData) {
 	}
 	const bets = data.mainBet.split(',');
 	for (const bet in bets) {
-		let index = 0;
 		const [id, value] = bets[bet].split(";");
-		
-		arrayBets.push({ id: id, value: +value, jackpot: jackpots[index] })
 
-		index++;
+		arrayBets.push({ id: id, value: +value, jackpot: jackpots[bet] });
 	}
 
 	return arrayBets;

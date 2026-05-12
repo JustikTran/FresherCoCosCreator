@@ -1,7 +1,7 @@
-import { _decorator, Button, Component, Label, Node, utils } from 'cc';
-import { GameEventManager } from './GameEventManager';
-import { formatMoney, parseMapBet, parseValueFromString, tweenMoney } from '../utils/utils';
+import { _decorator, Button, Component, Label } from 'cc';
+import { formatMoney, tweenMoney } from '../utils/utils';
 import * as Utils from '../utils/utils';
+import { BetManager } from './BetManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('UIManager')
@@ -19,54 +19,40 @@ export class UIManager extends Component {
     @property(Button)
     btnMinor: Button;
 
-    private _bets: IBet[] = [];
-    private _currentBet: IBet = null;
+    private _betManager: BetManager;
+    private _current: number = 0;
+    private _max: number = 0;
 
     onLoad(): void {
-        this.node.on("JOIN_GAME_SUCCESS", this._parseDate, this);
-        this.btnPlus.node.on("click", this._upBet, this);
-        this.btnMinor.node.on("click", this._downBet, this);
+        this._betManager = this.node.getComponent(BetManager);
+
+        this.node.on("RENDER", this._render, this);
+        this.node.on("RENDER_NEW_BET", this._changeBet, this);
+    }
+
+    update(dt: number): void {
+        this.btnPlus.interactable = this._current < this._max;
+        this.btnMinor.interactable = this._current > 0;
     }
 
     onDestroy(): void {
-        this.node.off("JOIN_GAME_SUCCESS", this._parseDate, this);
-        this.btnPlus.node.off("", this._upBet, this);
-        this.btnMinor.node.off("", this._downBet, this);
+        this.node.off("RENDER", this._render, this);
+        this.node.off("RENDER_NEW_BET", this._changeBet, this);
     }
 
-    private _parseDate(data: IJoinGameData): void {
-        this._bets = parseMapBet(data);
-        this._currentBet = this._bets[0];
-        this._render(this._currentBet.jackpot, this._currentBet.value, data.wallet);
+    private _render(wallet: number): void {
+        this._changeBet();
+        tweenMoney.call(Utils, this.walletLabel, 0.5, wallet, { acceptRunDown: true }, formatMoney);
     }
 
-    private _render(jackpot: number, totalBet: number, wallet: number = 0) {
-        this.totalLabel.string = formatMoney(totalBet);
-        this.betSizeLabel.string = `${totalBet / 25}`;
-        // this.jackpotLabel.string = formatMoney(this._bets[0].jackpot);
-        // this.walletLabel.string = formatMoney(data.wallet);
-        tweenMoney.call(Utils, this.jackpotLabel, 0.1, jackpot, {}, formatMoney);
-        // if (!wallet) {
-            tweenMoney.call(Utils, this.walletLabel, 0.5, wallet, {}, formatMoney);
-        // }
-    }
+    private _changeBet(): void {
+        this._current = this._betManager.currentIndex;
+        const bets = this._betManager.bets;
+        this._max = bets.length - 1;
 
-    private _upBet() {
-        let index = this._bets.indexOf(this._currentBet);
-        if (index === -1 || index === this._bets.length - 2) {
-            this.btnPlus.interactable = false;
-        }
-        this._currentBet = this._bets[++index];
-        this._render(this._currentBet.jackpot, this._currentBet.value);
-    }
-
-    private _downBet() {
-        let index = this._bets.indexOf(this._currentBet);
-        if (index === -1 || index === 1) {
-            this.btnPlus.interactable = false;
-        }
-        this._currentBet = this._bets[--index];
-        this._render(this._currentBet.jackpot, this._currentBet.value);
+        this.totalLabel.string = formatMoney(bets[this._current].value);
+        this.betSizeLabel.string = `${bets[this._current].value / 25}`;
+        tweenMoney.call(Utils, this.jackpotLabel, 0.5, bets[this._current].jackpot, { acceptRunDown: true }, formatMoney);
     }
 }
 
